@@ -1,0 +1,23 @@
+name: ComplexMMOStats
+version: ${project.version}
+main: com.miketheshadow.complexmmostats.ComplexMMOStats
+api-version: 1.16
+authors: [ MikeTheShadow ]
+description: The most complex MMO stats ever. YUGEEEE
+depend: [NBTAPI]
+commands:
+  cmsummon:
+    description: Summons an item from the config
+    usage: /cmsummon [itemName] [player] [isCrafted]
+    permission: cmmos.Admin
+    permission-message: You don't have cmmos.Admin permission!
+  type:
+    description: type
+    usage: /type
+    permission: cmmos.Admin
+    permission-message: You don't have cmmos.Admin permission!
+  cmreload:
+    description: Reload the plugin configs
+    usage: /cmreload
+    permission: cmmos.Admin
+    permission-message: You don't have cmmos.Admin permission!
