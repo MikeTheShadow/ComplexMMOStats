@@ -1,19 +1,19 @@
 package com.miketheshadow.complexmmostats.item.weapon;
 
+import com.miketheshadow.complexmmostats.utils.CustomComponents;
 import com.miketheshadow.complexmmostats.utils.ItemBuilder;
+import com.miketheshadow.complexmmostats.utils.NBTData;
 import com.miketheshadow.complexmmostats.utils.Stat;
-import de.tr7zw.nbtapi.NBTCompound;
-import de.tr7zw.nbtapi.NBTContainer;
-import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class WeaponBuilder extends ItemBuilder {
 
@@ -22,7 +22,7 @@ public class WeaponBuilder extends ItemBuilder {
         List<String> lore = new ArrayList<>();
 
         String creatorName = null;
-        if(player != null) creatorName = player.getDisplayName();
+        if(player != null) creatorName = player.displayName().examinableName();
         lore.add(String.format("§6%s",weaponType));
         lore.add(String.format("§b%s",rarity));
         lore.add("");
@@ -42,8 +42,8 @@ public class WeaponBuilder extends ItemBuilder {
 
         ItemStack stack = new ItemStack(material,1);
         ItemMeta meta = stack.getItemMeta();
-        meta.setDisplayName(weaponName);
-        meta.setLore(lore);
+        meta.displayName(CustomComponents.createDisplayName(weaponName));
+        meta.lore(CustomComponents.createLore(meta.lore(),lore));
         stack.setItemMeta(meta);
 
         return applyTags(stack,handling,attackDamage,durability,stats,rarity,player);
@@ -52,12 +52,17 @@ public class WeaponBuilder extends ItemBuilder {
 
     public static ItemStack applyTags(ItemStack item,int handling,int attackDamage, int durability, HashMap<Stat,Integer> stats, int rarity, Player player) {
 
-        NBTContainer container = NBTItem.convertItemtoNBT(item);
 
-        NBTCompound compound = container.getCompound("tag");
+        ItemMeta meta = item.getItemMeta();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        modifyContainer(handling, durability, stats, rarity, player, container);
+        container.set(NBTData.ATTACK_DAMAGE, PersistentDataType.INTEGER,attackDamage);
 
-        compound.setInteger("attack_damage",attackDamage);
-        return getItemStack(handling, durability, stats, rarity, player, container, compound);
+        //NBTContainer container = NBTItem.convertItemtoNBT(item);
+        //NBTCompound compound = container.getCompound("tag");
+        //compound.setInteger("attack_damage",attackDamage);
+        item.setItemMeta(meta);
+        return item;
     }
 
 

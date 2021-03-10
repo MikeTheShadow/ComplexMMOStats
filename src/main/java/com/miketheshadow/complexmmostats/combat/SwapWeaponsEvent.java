@@ -3,7 +3,6 @@ package com.miketheshadow.complexmmostats.combat;
 import com.miketheshadow.complexmmostats.ComplexMMOStats;
 import com.miketheshadow.complexmmostats.utils.CombatPlayer;
 import com.miketheshadow.complexmmostats.utils.ItemChecker;
-import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,7 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class SwapWeaponsEvent implements Listener {
@@ -25,7 +23,10 @@ public class SwapWeaponsEvent implements Listener {
         if(stack == null) {
             stack = new ItemStack(Material.AIR);
         }
-        if(ItemChecker.isValidComplexMMOItem(stack) && !NBTItem.convertItemtoNBT(CombatPlayer.getPlayer(event.getPlayer()).getCurrentMainHand()).toString().equals(NBTItem.convertItemtoNBT(stack).toString()))
+        //if(ItemChecker.isValidComplexMMOItem(stack) && !NBTItem.convertItemtoNBT(CombatPlayer.getPlayer(event.getPlayer()).getCurrentMainHand()).toString().equals(NBTItem.convertItemtoNBT(stack).toString()))
+        ItemStack mainHand = CombatPlayer.getPlayer(event.getPlayer()).getCurrentMainHand();
+        ItemStack offHand = stack;
+            if(ItemChecker.isAnyWeapon(stack) && ItemChecker.isDifferentWeapon(mainHand,offHand))
             CombatPlayer.getPlayer(event.getPlayer()).update(event.getPlayer(),stack);
     }
 

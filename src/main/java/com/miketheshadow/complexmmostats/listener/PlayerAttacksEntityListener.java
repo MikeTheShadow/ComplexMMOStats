@@ -15,7 +15,7 @@ public class PlayerAttacksEntityListener implements Listener {
 
         //Check if event canceled.
         if(event.isCancelled())return;
-        //IsPlayer check
+        //Attacker is player and defender is not
         if(!(event.getDamager() instanceof Player) || (event.getEntity() instanceof Player))return;
         //Make sure this is a regular attack
         if(!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) return;
@@ -27,7 +27,6 @@ public class PlayerAttacksEntityListener implements Listener {
         Player player = (Player) event.getDamager();
 
         PlayerAttacksEntityAPI.DealDamage(player,defender,100.0d);
-
     }
 
 }

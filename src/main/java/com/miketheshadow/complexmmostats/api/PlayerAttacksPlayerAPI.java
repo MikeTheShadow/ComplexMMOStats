@@ -2,12 +2,13 @@ package com.miketheshadow.complexmmostats.api;
 
 import com.miketheshadow.complexmmostats.utils.CombatPlayer;
 import com.miketheshadow.complexmmostats.utils.ItemChecker;
-import de.tr7zw.nbtapi.NBTItem;
+import com.miketheshadow.complexmmostats.utils.NBTData;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Random;
 
@@ -63,7 +64,7 @@ public class PlayerAttacksPlayerAPI extends PlayerAttackBaseAPI {
             //calculate defense bypass for block
             if(didBlock ^ !blockBypass) {
                 if((new Random()).nextInt(100) > 50) {
-                    armorBypassAmount += NBTItem.convertItemtoNBT(defender.getInventory().getItemInOffHand()).getCompound("tag").getInteger("defense");
+                    armorBypassAmount += defender.getInventory().getItemInOffHand().getItemMeta().getPersistentDataContainer().get(NBTData.DEFENSE, PersistentDataType.INTEGER);
                     createTemporaryHologram(damager,defender, ChatColor.RED + "Shield Penetrated!");
                     createTemporaryHologram(defender,damager,ChatColor.GREEN + "Shield Penetrated!");
                 }

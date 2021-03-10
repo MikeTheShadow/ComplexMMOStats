@@ -1,15 +1,17 @@
 package com.miketheshadow.complexmmostats.utils;
 
-import de.tr7zw.nbtapi.NBTCompound;
-import de.tr7zw.nbtapi.NBTContainer;
-import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
+
+import static com.miketheshadow.complexmmostats.utils.NBTData.*;
 
 public class CombatPlayer {
 
@@ -141,21 +143,46 @@ public class CombatPlayer {
 
     private void addMainHandStats(ItemStack stack) {
         this.currentMainHand = stack;
-        NBTContainer container = NBTItem.convertItemtoNBT(stack);
-        NBTCompound weaponContainer = container.getCompound("tag");
-        this.damage = weaponContainer.getInteger("attack_damage");
+        PersistentDataContainer container = stack.getItemMeta().getPersistentDataContainer();
+        //NBTContainer container = NBTItem.convertItemtoNBT(stack);
+        //NBTCompound weaponContainer = container.getCompound("tag");
+        this.damage = container.get(NBTData.ATTACK_DAMAGE, PersistentDataType.INTEGER);
         //TODO ENABLE -> this.attackSpeed = weaponContainer.getFloat("attack_speed");
-        addStats(weaponContainer);
+        addStats(container);
     }
 
     private void addStatsToSelf(ItemStack stack) {
-        NBTContainer container = NBTItem.convertItemtoNBT(stack);
-        NBTCompound weaponContainer = container.getCompound("tag");
-        addStats(weaponContainer);
+        addStats(stack.getItemMeta().getPersistentDataContainer());
     }
 
-    private void addStats(NBTCompound compound) {
+    private void addStats(PersistentDataContainer container) {
 
+        if(container.has(STRENGTH,PersistentDataType.INTEGER)) {
+            int amount = container.get(STRENGTH,PersistentDataType.INTEGER);
+            this.damage += (amount * 0.4);
+            this.parryRate += (amount * 0.03);
+            statMap.put(Stat.STRENGTH,statMap.get(Stat.STRENGTH) + amount);
+        }
+
+        if(container.has(STAMINA,PersistentDataType.INTEGER)) {
+            int amount = container.get(STAMINA,PersistentDataType.INTEGER);
+            this.bonusHealth += amount * 10;
+            this.blockRate += (amount * 0.03);
+            statMap.put(Stat.STAMINA,statMap.get(Stat.STAMINA) + amount);
+        }
+        if(container.has(AGILITY,PersistentDataType.INTEGER)) {
+            int amount = container.get(AGILITY,PersistentDataType.INTEGER);
+            this.criticalRate += amount * 0.05;
+            this.criticalDamage += amount * 0.05;
+            statMap.put(Stat.AGILITY,statMap.get(Stat.AGILITY) + amount);
+        }
+        if(container.has(INTELLIGENCE,PersistentDataType.INTEGER)) {
+            int amount = container.get(INTELLIGENCE,PersistentDataType.INTEGER);
+            this.intel += amount;
+            statMap.put(Stat.INTELLIGENCE,statMap.get(Stat.INTELLIGENCE) + amount);
+        }
+
+        /*
         if(compound.hasKey(Stat.STRENGTH.name())) {
             int amount = compound.getInteger(Stat.STRENGTH.name());
             this.damage += (amount * 0.4);
@@ -179,12 +206,17 @@ public class CombatPlayer {
             int amount = compound.getInteger(Stat.INTELLIGENCE.name());
             this.intel += amount;
             statMap.put(Stat.INTELLIGENCE,statMap.get(Stat.INTELLIGENCE) + amount);
-        }
-
         //for shields or armor
 
         if(compound.hasKey("defense")) {
             this.defense += compound.getInteger("defense");
+        }
+        }
+         */
+
+        //for shields or armor
+        if(container.has(DEFENSE,PersistentDataType.INTEGER)) {
+            this.defense += container.get(DEFENSE,PersistentDataType.INTEGER);
         }
 
     }
