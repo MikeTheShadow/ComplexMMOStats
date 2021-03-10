@@ -3,8 +3,10 @@ package com.miketheshadow.complexmmostats.utils;
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,8 +22,11 @@ public class ItemBuilder {
         for(Map.Entry<Stat,Integer> stat : stats.entrySet()) {
             compound.setInteger(stat.getKey().name(),stat.getValue());
         }
-
-        return NBTItem.convertNBTtoItem(container);
+        ItemStack finalItem = NBTItem.convertNBTtoItem(container);
+        ItemMeta itemMeta = finalItem.getItemMeta();
+        itemMeta.setUnbreakable(true);
+        finalItem.setItemMeta(itemMeta);
+        return finalItem;
     }
 
 }

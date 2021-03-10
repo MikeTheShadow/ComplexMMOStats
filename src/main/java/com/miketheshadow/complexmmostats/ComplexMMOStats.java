@@ -1,6 +1,8 @@
 package com.miketheshadow.complexmmostats;
 
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.miketheshadow.complexmmostats.combat.ComplexLoginEvent;
+import com.miketheshadow.complexmmostats.combat.HealthRegenEvent;
 import com.miketheshadow.complexmmostats.combat.PlayerAttackPlayerEvent;
 import com.miketheshadow.complexmmostats.combat.SwapWeaponsEvent;
 import com.miketheshadow.complexmmostats.command.CMReloadCommand;
@@ -20,6 +22,16 @@ public final class ComplexMMOStats extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
+            getLogger().severe("*** HolographicDisplays is not installed or not enabled. ***");
+            getLogger().severe("*** This plugin will be disabled. ***");
+            this.setEnabled(false);
+            return;
+        }
+        try {
+            HologramsAPI.getHolograms(this).clear();
+        } catch (Exception ignored) {}
         // Plugin startup logic
         INSTANCE = this;
         if(!this.getDataFolder().exists()) this.getDataFolder().mkdir();
@@ -30,6 +42,7 @@ public final class ComplexMMOStats extends JavaPlugin {
         manager.registerEvents(new PlayerAttackPlayerEvent(),this);
         manager.registerEvents(new ComplexLoginEvent(),this);
         manager.registerEvents(new SwapWeaponsEvent(),this);
+        manager.registerEvents(new HealthRegenEvent(),this);
         new SummonItemCommand();
         new TypeCommand();
         new CMReloadCommand();

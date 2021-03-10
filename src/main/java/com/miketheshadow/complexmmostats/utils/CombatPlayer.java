@@ -3,11 +3,8 @@ package com.miketheshadow.complexmmostats.utils;
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -32,7 +29,7 @@ public class CombatPlayer {
 
     //defensive stats
     private float defense;
-    private float blockRate;
+    private float blockRate = 0.1F;
     private float parryRate;
 
 
@@ -73,7 +70,7 @@ public class CombatPlayer {
 
         //defensive stats
         defense = 0;
-        blockRate = 0;
+        blockRate = 0.1F;
         parryRate = 0;
         calculateOffensiveStats(player,forceMainHand);
 
@@ -82,13 +79,16 @@ public class CombatPlayer {
         double totalHealth = baseHealth + bonusHealth;
 
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(totalHealth);
-        player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(2.4 + attackSpeed);
-        player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(damage);
-
+        //player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(2.4 + attackSpeed);
+        player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(2.4 + ( 1 / attackSpeed));
+        player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+        player.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(0);
+        player.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS).setBaseValue(0);
+        player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(0);
         if(player.getHealth() > player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()) {
             player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
         }
-        player.sendMessage(ChatColor.GREEN + ":" + damage);
+        //player.sendMessage(ChatColor.GREEN + ":" + damage);
         //calculate defense
         percentDamageReduction = defense / (defense + 7900);
 
@@ -158,15 +158,15 @@ public class CombatPlayer {
 
         if(compound.hasKey(Stat.STRENGTH.name())) {
             int amount = compound.getInteger(Stat.STRENGTH.name());
-            this.damage += (amount * 0.2);
-            this.parryRate += (amount * 0.05);
+            this.damage += (amount * 0.4);
+            this.parryRate += (amount * 0.03);
             statMap.put(Stat.STRENGTH,statMap.get(Stat.STRENGTH) + amount);
         }
 
         if(compound.hasKey(Stat.STAMINA.name())) {
             int amount = compound.getInteger(Stat.STAMINA.name());
-            this.bonusHealth += amount * 12;
-            this.blockRate += (amount * 0.07);
+            this.bonusHealth += amount * 10;
+            this.blockRate += (amount * 0.03);
             statMap.put(Stat.STAMINA,statMap.get(Stat.STAMINA) + amount);
         }
         if(compound.hasKey(Stat.AGILITY.name())) {
