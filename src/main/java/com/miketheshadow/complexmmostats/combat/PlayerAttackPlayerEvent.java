@@ -37,11 +37,4 @@ public class PlayerAttackPlayerEvent implements Listener {
     }
 
 
-
-    @EventHandler
-    public void onDurabilityChange(PlayerItemDamageEvent event) {
-        if(ItemChecker.isValidComplexMMOItem(event.getItem()))event.setCancelled(true);
-    }
-
-
 }

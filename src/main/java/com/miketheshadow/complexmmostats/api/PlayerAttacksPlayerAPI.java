@@ -27,7 +27,7 @@ public class PlayerAttacksPlayerAPI extends PlayerAttackBaseAPI {
         CombatPlayer combatDefender = CombatPlayer.getPlayer(defender);
 
         //TODO decide how you can attack in the area. Probably make it so that you can disable skills in a peace zone
-        if(!canAttack(damager,defender)) return;
+        if(cannotAttack(damager,defender)) return;
 
         //Check if player is using a weapon
         if(!ItemChecker.isAnyWeapon(damager.getInventory().getItemInMainHand())) {
@@ -101,14 +101,15 @@ public class PlayerAttacksPlayerAPI extends PlayerAttackBaseAPI {
                     damage = damage * .2;
                 }
             }
-            if (!(defender.getHealth() - damage <= 0)) {
+            if (defender.getHealth() - damage <= 0) {
                 //TODO enable if paper comes back
                 //defender.setKiller(damager);
+                defender.setHealth(0);
+            } else {
                 defender.setHealth(defender.getHealth() - damage);
             }
 
         }
-        defender.setHealth(defender.getHealth() - damage);
         //update combat log
         updateCombatTimers(damager,defender);
         updateAttackTimer(damager,combatDamager);

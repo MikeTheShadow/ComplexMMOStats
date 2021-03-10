@@ -23,7 +23,7 @@ public class PlayerAttackBaseAPI {
 
     public static HashMap<UUID, AttackTimer> combatInfo = new HashMap<>();
 
-    public static boolean canAttack(Player attacker, Entity defender) {
+    public static boolean cannotAttack(Player attacker, Entity defender) {
         EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(attacker,defender, EntityDamageEvent.DamageCause.CUSTOM,0);
         Bukkit.getPluginManager().callEvent(event);
         return event.isCancelled();

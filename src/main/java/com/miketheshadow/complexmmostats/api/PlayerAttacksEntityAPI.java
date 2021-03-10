@@ -14,16 +14,13 @@ public class PlayerAttacksEntityAPI extends PlayerAttackBaseAPI {
     public static void DealDamage(Player damager, LivingEntity defender, double percentOfDamage) {
 
         CombatPlayer combatDamager = CombatPlayer.getPlayer(damager);
-        if(!canAttack(damager,defender)) return;
-
+        if(cannotAttack(damager,defender)) return;
         //Check if player is using a weapon
         if(!ItemChecker.isAnyWeapon(damager.getInventory().getItemInMainHand())) {
             return;
         }
-
         //get damage use would deal if their opponent had 0 hp
         double damage = (combatDamager.getDamage() + (combatDamager.getDamage() * combatDamager.getPercentBonusDamage())) + combatDamager.getFlatBonusAD();
-
         //apply multiplier
         damage = damage * (percentOfDamage / 100);
 
@@ -54,13 +51,16 @@ public class PlayerAttacksEntityAPI extends PlayerAttackBaseAPI {
             }
         }
 
-        if (!(defender.getHealth() - damage <= 0)) {
+        if (defender.getHealth() - damage <= 0) {
             //TODO ENABLE THIS IS PAPER IS ADDED
             //defender.setKiller(damager);
+            defender.setHealth(0);
+        } else {
             defender.setHealth(defender.getHealth() - damage);
         }
-
-        defender.setHealth(defender.getHealth() - damage);
+        //update combat log
+        updateCombatTimers(damager);
+        updateAttackTimer(damager,combatDamager);
     }
 
 }

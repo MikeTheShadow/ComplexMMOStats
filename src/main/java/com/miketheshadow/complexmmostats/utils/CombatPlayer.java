@@ -40,7 +40,6 @@ public class CombatPlayer {
 
     private float intel;
 
-
     public double bonusHealth = 0;
 
     private ItemStack currentMainHand;
@@ -81,8 +80,8 @@ public class CombatPlayer {
         double totalHealth = baseHealth + bonusHealth;
 
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(totalHealth);
-        //player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(2.4 + attackSpeed);
-        player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(2.4 + ( 1 / attackSpeed));
+        player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(2.4 + attackSpeed);
+        //player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(2.4 + ( 1 / attackSpeed));
         player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
         player.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(0);
         player.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS).setBaseValue(0);

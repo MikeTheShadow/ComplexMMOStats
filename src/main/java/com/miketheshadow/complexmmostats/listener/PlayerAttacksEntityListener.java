@@ -19,10 +19,8 @@ public class PlayerAttacksEntityListener implements Listener {
         if(!(event.getDamager() instanceof Player) || (event.getEntity() instanceof Player))return;
         //Make sure this is a regular attack
         if(!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) return;
-
         //make sure entity attacked is living
         if(!(event.getEntity() instanceof LivingEntity)) return;
-
         LivingEntity defender = (LivingEntity) event.getEntity();
         Player player = (Player) event.getDamager();
         event.setDamage(0);

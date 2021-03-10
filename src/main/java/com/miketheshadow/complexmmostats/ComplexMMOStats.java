@@ -11,6 +11,7 @@ import com.miketheshadow.complexmmostats.item.armor.ArmorConfig;
 import com.miketheshadow.complexmmostats.item.weapon.ShieldConfig;
 import com.miketheshadow.complexmmostats.item.weapon.WeaponConfig;
 import com.miketheshadow.complexmmostats.command.TypeCommand;
+import com.miketheshadow.complexmmostats.listener.PlayerAttacksEntityListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginManager;
@@ -43,6 +44,7 @@ public final class ComplexMMOStats extends JavaPlugin {
         manager.registerEvents(new ComplexLoginEvent(),this);
         manager.registerEvents(new SwapWeaponsEvent(),this);
         manager.registerEvents(new HealthRegenEvent(),this);
+        manager.registerEvents(new PlayerAttacksEntityListener(), this);
         new SummonItemCommand();
         new TypeCommand();
         new CMReloadCommand();
