@@ -1,18 +1,14 @@
 package com.miketheshadow.complexmmostats.item.weapon;
 
-import com.miketheshadow.complexmmostats.utils.CustomComponents;
 import com.miketheshadow.complexmmostats.utils.ItemBuilder;
 import com.miketheshadow.complexmmostats.utils.NBTData;
 import com.miketheshadow.complexmmostats.utils.Stat;
-import net.kyori.adventure.text.Component;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +21,7 @@ public class ShieldBuilder extends ItemBuilder {
         List<String> lore = new ArrayList<>();
 
         String creatorName = null;
-        if(player != null) creatorName = player.displayName().examinableName();
+        if(player != null) creatorName = player.getDisplayName();
         lore.add(String.format("§6%s",weaponType));
         lore.add(String.format("§b%s",rarity));
         lore.add("");
@@ -44,8 +40,8 @@ public class ShieldBuilder extends ItemBuilder {
 
         ItemStack stack = new ItemStack(material,1);
         ItemMeta meta = stack.getItemMeta();
-        meta.displayName(CustomComponents.createDisplayName(weaponName));
-        meta.lore(CustomComponents.createLore(meta.lore(),lore));
+        meta.setDisplayName(weaponName);
+        meta.setLore(lore);
         stack.setItemMeta(meta);
 
         return applyTags(stack,handling,defense,durability,stats,rarity,player);

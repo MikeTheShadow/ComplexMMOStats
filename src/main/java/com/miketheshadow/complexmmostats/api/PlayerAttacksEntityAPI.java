@@ -55,7 +55,8 @@ public class PlayerAttacksEntityAPI extends PlayerAttackBaseAPI {
         }
 
         if (!(defender.getHealth() - damage <= 0)) {
-            defender.setKiller(damager);
+            //TODO ENABLE THIS IS PAPER IS ADDED
+            //defender.setKiller(damager);
             defender.setHealth(defender.getHealth() - damage);
         }
 

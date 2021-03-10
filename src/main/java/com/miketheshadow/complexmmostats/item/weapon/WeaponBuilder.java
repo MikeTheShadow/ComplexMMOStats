@@ -1,6 +1,5 @@
 package com.miketheshadow.complexmmostats.item.weapon;
 
-import com.miketheshadow.complexmmostats.utils.CustomComponents;
 import com.miketheshadow.complexmmostats.utils.ItemBuilder;
 import com.miketheshadow.complexmmostats.utils.NBTData;
 import com.miketheshadow.complexmmostats.utils.Stat;
@@ -22,7 +21,9 @@ public class WeaponBuilder extends ItemBuilder {
         List<String> lore = new ArrayList<>();
 
         String creatorName = null;
-        if(player != null) creatorName = player.displayName().examinableName();
+        //TODO enable if paper is added
+        //if(player != null) creatorName = player.displayName().examinableName();
+        if(player != null) creatorName = player.getDisplayName();
         lore.add(String.format("§6%s",weaponType));
         lore.add(String.format("§b%s",rarity));
         lore.add("");
@@ -42,10 +43,12 @@ public class WeaponBuilder extends ItemBuilder {
 
         ItemStack stack = new ItemStack(material,1);
         ItemMeta meta = stack.getItemMeta();
-        meta.displayName(CustomComponents.createDisplayName(weaponName));
-        meta.lore(CustomComponents.createLore(meta.lore(),lore));
+        meta.setDisplayName(weaponName);
+        meta.setLore(lore);
         stack.setItemMeta(meta);
-
+        //TODO enable if paper is added
+        //meta.displayName(CustomComponents.createDisplayName(weaponName));
+        //meta.lore(CustomComponents.createLore(meta.lore(),lore));
         return applyTags(stack,handling,attackDamage,durability,stats,rarity,player);
     }
 

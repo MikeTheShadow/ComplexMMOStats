@@ -30,7 +30,7 @@ public class PlayerAttackBaseAPI {
     }
 
     public static void createTemporaryHologram(Player player, Player player2, String text) {
-
+        if(!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) return;
         Location location = player.getLocation();
         location.add(0,2,0);
 

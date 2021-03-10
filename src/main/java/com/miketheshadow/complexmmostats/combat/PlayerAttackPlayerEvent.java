@@ -31,7 +31,7 @@ public class PlayerAttackPlayerEvent implements Listener {
 
         Player damager = (Player) event.getDamager();
         Player defender = (Player) event.getEntity();
-
+        event.setDamage(0);
         PlayerAttacksPlayerAPI.dealDamage(damager,defender,100.0d);
 
     }

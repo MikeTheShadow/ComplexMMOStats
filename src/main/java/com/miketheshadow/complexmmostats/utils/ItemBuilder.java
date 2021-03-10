@@ -13,7 +13,7 @@ import static com.miketheshadow.complexmmostats.utils.NBTData.STAMINA;
 
 public class ItemBuilder {
 
-    public static PersistentDataContainer modifyContainer(int handling, int durability, HashMap<Stat, Integer> stats, int rarity, Player player, PersistentDataContainer container) {
+    public static void modifyContainer(int handling, int durability, HashMap<Stat, Integer> stats, int rarity, Player player, PersistentDataContainer container) {
         container.set(NBTData.DURABILITY, PersistentDataType.INTEGER,durability);
         container.set(HANDLING, PersistentDataType.INTEGER, handling);
         container.set(NBTData.RARITY, PersistentDataType.INTEGER, rarity);
@@ -44,7 +44,6 @@ public class ItemBuilder {
             container.set(NBTData.INTELLIGENCE,PersistentDataType.INTEGER,stats.get(Stat.INTELLIGENCE));
         }
 
-        return container;
     }
 
 }

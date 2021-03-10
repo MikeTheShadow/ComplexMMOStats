@@ -25,13 +25,13 @@ public final class ComplexMMOStats extends JavaPlugin {
 
         if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
             getLogger().severe("*** HolographicDisplays is not installed or not enabled. ***");
-            getLogger().severe("*** This plugin will be disabled. ***");
-            this.setEnabled(false);
-            return;
+            //this.setEnabled(false);
+            //return;
+        } else {
+            try {
+                HologramsAPI.getHolograms(this).clear();
+            } catch (Exception ignored) {}
         }
-        try {
-            HologramsAPI.getHolograms(this).clear();
-        } catch (Exception ignored) {}
         // Plugin startup logic
         INSTANCE = this;
         if(!this.getDataFolder().exists()) this.getDataFolder().mkdir();

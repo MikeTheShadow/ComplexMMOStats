@@ -102,7 +102,8 @@ public class PlayerAttacksPlayerAPI extends PlayerAttackBaseAPI {
                 }
             }
             if (!(defender.getHealth() - damage <= 0)) {
-                defender.setKiller(damager);
+                //TODO enable if paper comes back
+                //defender.setKiller(damager);
                 defender.setHealth(defender.getHealth() - damage);
             }
 

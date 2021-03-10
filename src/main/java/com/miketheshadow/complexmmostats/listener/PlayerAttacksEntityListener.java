@@ -25,7 +25,7 @@ public class PlayerAttacksEntityListener implements Listener {
 
         LivingEntity defender = (LivingEntity) event.getEntity();
         Player player = (Player) event.getDamager();
-
+        event.setDamage(0);
         PlayerAttacksEntityAPI.DealDamage(player,defender,100.0d);
     }
 

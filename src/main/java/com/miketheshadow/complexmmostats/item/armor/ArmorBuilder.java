@@ -1,6 +1,5 @@
 package com.miketheshadow.complexmmostats.item.armor;
 
-import com.miketheshadow.complexmmostats.utils.CustomComponents;
 import com.miketheshadow.complexmmostats.utils.ItemBuilder;
 import com.miketheshadow.complexmmostats.utils.NBTData;
 import com.miketheshadow.complexmmostats.utils.Stat;
@@ -22,7 +21,7 @@ public class ArmorBuilder extends ItemBuilder {
         List<String> lore = new ArrayList<>();
 
         String creatorName = null;
-        if(player != null) creatorName = player.displayName().examinableName();
+        if(player != null) creatorName = player.getDisplayName();
         lore.add(String.format("§6%s",armorName));
         lore.add(String.format("§b%s",rarity));
         lore.add("");
@@ -41,8 +40,8 @@ public class ArmorBuilder extends ItemBuilder {
 
         ItemStack stack = new ItemStack(material,1);
         ItemMeta meta = stack.getItemMeta();
-        meta.displayName(CustomComponents.createDisplayName(weaponName));
-        meta.lore(CustomComponents.createLore(meta.lore(),lore));
+        meta.setDisplayName(weaponName);
+        meta.setLore(lore);
         stack.setItemMeta(meta);
 
         return applyTags(stack,handling,defense,durability,stats,rarity,player);
