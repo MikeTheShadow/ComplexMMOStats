@@ -1,9 +1,5 @@
 package com.miketheshadow.complexmmostats.api;
 
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import com.miketheshadow.complexmmostats.ComplexMMOStats;
-import com.miketheshadow.complexmmostats.utils.AttackTimer;
 import com.miketheshadow.complexmmostats.utils.CombatPlayer;
 import com.miketheshadow.complexmmostats.utils.ItemChecker;
 import de.tr7zw.nbtapi.NBTItem;
@@ -12,23 +8,17 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Random;
-import java.util.UUID;
 
-import static java.time.temporal.ChronoUnit.MILLIS;
-
-public final class ComplexDamageAPI {
+public class PlayerAttacksPlayerAPI extends PlayerAttackBaseAPI {
 
     /**
      * The combat hashmap. This hashmap store the information on how long ago a player attacked another player
      * This servers the purpose of both telling when the last attack was so that damage can be calculated accordingly
      * and when the player was last attacked (combat log purposes)
      */
-    public static HashMap<UUID, AttackTimer> combatInfo = new HashMap<>();
+
 
     public static void dealDamage(Player damager, Player defender, double percentOfDamage) {
 
@@ -36,7 +26,7 @@ public final class ComplexDamageAPI {
         CombatPlayer combatDefender = CombatPlayer.getPlayer(defender);
 
         //TODO decide how you can attack in the area. Probably make it so that you can disable skills in a peace zone
-        if(canAttack(damager)) return;
+        if(!canAttack(damager,defender)) return;
 
         //Check if player is using a weapon
         if(!ItemChecker.isAnyWeapon(damager.getInventory().getItemInMainHand())) {
@@ -55,7 +45,6 @@ public final class ComplexDamageAPI {
             Location critLocation = defender.getLocation();
             defender.getWorld().spawnParticle(Particle.CRIT,critLocation,50);
         }
-
 
         boolean didBlock = false;
         if(ItemChecker.isOneHandedWeapon(defender.getInventory().getItemInMainHand()))
@@ -117,54 +106,10 @@ public final class ComplexDamageAPI {
             }
 
         }
+        defender.setHealth(defender.getHealth() - damage);
         //update combat log
-        updateCombatTimers(damager);
-        updateCombatTimers(defender);
+        updateCombatTimers(damager,defender);
         updateAttackTimer(damager,combatDamager);
-    }
-
-    private static boolean canAttack(Player attacker) {
-        return true;
-    }
-
-    private static void createTemporaryHologram(Player player,Player player2,String text) {
-
-        Location location = player.getLocation();
-        location.add(0,2,0);
-
-        Hologram hologram = HologramsAPI.createHologram(ComplexMMOStats.INSTANCE, location);
-        hologram.appendTextLine(text);
-        hologram.getVisibilityManager().setVisibleByDefault(false);
-        hologram.getVisibilityManager().hideTo(player);
-        hologram.getVisibilityManager().showTo(player2);
-        (new BukkitRunnable() {
-            @Override
-            public void run() {
-                try { Thread.sleep(1000); }
-                catch (InterruptedException e) { e.printStackTrace(); }
-                hologram.delete();
-            }
-        }).runTaskAsynchronously(ComplexMMOStats.INSTANCE);
-    }
-
-    private static void updateAttackTimer(Player player, CombatPlayer combatPlayer) {
-        UUID uuid = player.getUniqueId();
-        LocalDateTime attackResetTime = LocalDateTime.now().plus((long) ((1 / combatPlayer.getAttackSpeed()) * 1000),MILLIS);
-
-        if(combatInfo.containsKey(uuid)) {
-            combatInfo.get(uuid).setAttackTime(attackResetTime);
-        } else {
-            combatInfo.put(uuid,new AttackTimer(attackResetTime));
-        }
-    }
-
-    private static void updateCombatTimers(Player player) {
-        UUID uuid = player.getUniqueId();
-        if(combatInfo.containsKey(uuid)) {
-            combatInfo.get(uuid).setCombatTime(LocalDateTime.now());
-        } else {
-            combatInfo.put(uuid,new AttackTimer());
-        }
     }
 
 }

@@ -1,6 +1,6 @@
 package com.miketheshadow.complexmmostats.combat;
 
-import com.miketheshadow.complexmmostats.api.ComplexDamageAPI;
+import com.miketheshadow.complexmmostats.api.PlayerAttacksPlayerAPI;
 import com.miketheshadow.complexmmostats.utils.ItemChecker;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,7 +32,7 @@ public class PlayerAttackPlayerEvent implements Listener {
         Player damager = (Player) event.getDamager();
         Player defender = (Player) event.getEntity();
 
-        ComplexDamageAPI.dealDamage(damager,defender,100.0d);
+        PlayerAttacksPlayerAPI.dealDamage(damager,defender,100.0d);
 
     }
 
