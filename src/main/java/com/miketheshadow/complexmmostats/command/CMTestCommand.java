@@ -34,10 +34,10 @@ public class CMTestCommand extends BasicCommand {
 
         String R = ChatColor.RESET + "" + ChatColor.WHITE;
 
-        lore.add(R + UnicodeConversion.STRENGTH_ICON + " 174");
-        lore.add(R + UnicodeConversion.STAMINA_ICON + " 469");
-        lore.add(R + UnicodeConversion.AGILITY_ICON + " 62");
-
+        lore.add(R + UnicodeConversion.STRENGTH_ICON + " " + UnicodeConversion.numToUnicode(453));
+        lore.add(R + UnicodeConversion.STAMINA_ICON + " " + UnicodeConversion.numToUnicode(789));
+        lore.add(R + UnicodeConversion.AGILITY_ICON + " " + UnicodeConversion.numToUnicode(62));
+        lore.add(R + UnicodeConversion.numToUnicode(1234567890987654321L));
         lore.add(R + UnicodeConversion.ONE_HANDER_ICON);
         lore.add(R + UnicodeConversion.TWO_HANDER_ICON);
 
