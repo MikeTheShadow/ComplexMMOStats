@@ -5,12 +5,10 @@ import com.miketheshadow.complexmmostats.combat.ComplexLoginEvent;
 import com.miketheshadow.complexmmostats.combat.HealthRegenEvent;
 import com.miketheshadow.complexmmostats.combat.PlayerAttackPlayerEvent;
 import com.miketheshadow.complexmmostats.combat.SwapWeaponsEvent;
-import com.miketheshadow.complexmmostats.command.CMReloadCommand;
-import com.miketheshadow.complexmmostats.command.SummonItemCommand;
+import com.miketheshadow.complexmmostats.command.*;
 import com.miketheshadow.complexmmostats.item.armor.ArmorConfig;
 import com.miketheshadow.complexmmostats.item.weapon.ShieldConfig;
 import com.miketheshadow.complexmmostats.item.weapon.WeaponConfig;
-import com.miketheshadow.complexmmostats.command.TypeCommand;
 import com.miketheshadow.complexmmostats.listener.PlayerAttacksEntityListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,7 +33,14 @@ public final class ComplexMMOStats extends JavaPlugin {
         }
         // Plugin startup logic
         INSTANCE = this;
-        if(!this.getDataFolder().exists()) this.getDataFolder().mkdir();
+        if(!this.getDataFolder().exists()) {
+
+            if(!this.getDataFolder().mkdir()) {
+                Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Error! Can't create config folder! Disabling...");
+                Bukkit.getPluginManager().disablePlugin(this);
+                return;
+            }
+        }
         WeaponConfig.load();
         ShieldConfig.load();
         ArmorConfig.load();
@@ -45,9 +50,10 @@ public final class ComplexMMOStats extends JavaPlugin {
         manager.registerEvents(new SwapWeaponsEvent(),this);
         manager.registerEvents(new HealthRegenEvent(),this);
         manager.registerEvents(new PlayerAttacksEntityListener(), this);
-        new SummonItemCommand();
+        new CMSummonCommand();
         new TypeCommand();
         new CMReloadCommand();
+        new CMTestCommand();
         Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "ComplexMMOStats passed all checks!");
     }
 

@@ -21,16 +21,7 @@ public class ItemBuilder {
         //if item is gear give it a unique id
         if(handling == 1 || handling == 2 || handling == 3 || handling == 5) container.set(NBTData.UNIQUE_ITEM_ID,PersistentDataType.STRING, LocalDateTime.now().toString() + "|" + UUID.randomUUID().toString());
         if(player != null)container.set(NBTData.CREATOR_UUID,PersistentDataType.STRING,player.getUniqueId().toString());
-        /*
-        compound.setInteger("durability",durability);
-        compound.setInteger("handling",handling);
-        compound.setInteger("rarity",rarity);
-        compound.setBoolean("CMMOITEM",true);
-        if(player != null)compound.setString("creatorUUID",player.getUniqueId().toString());
-        for(Map.Entry<Stat,Integer> stat : stats.entrySet()) {
-            compound.setInteger(stat.getKey().name(),stat.getValue());
-        }
-         */
+
         if(stats.containsKey(Stat.STRENGTH)) {
             container.set(NBTData.STRENGTH,PersistentDataType.INTEGER,stats.get(Stat.STRENGTH));
         }

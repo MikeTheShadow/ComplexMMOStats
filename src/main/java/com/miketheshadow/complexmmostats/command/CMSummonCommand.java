@@ -10,11 +10,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class SummonItemCommand extends BasicCommand {
+public class CMSummonCommand extends BasicCommand {
 
 
-    public SummonItemCommand() {
-        super("cmsummon");
+    public CMSummonCommand() {
+        super("cmsummon",new CMSummonTabComplete());
     }
 
     private static final String[] parts  = {"HELMET","CHESTPLATE","LEGGINGS","BOOTS"};
@@ -65,4 +65,6 @@ public class SummonItemCommand extends BasicCommand {
 
         return true;
     }
+
+
 }

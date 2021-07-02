@@ -1,7 +1,9 @@
 package com.miketheshadow.complexmmostats.utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -16,8 +18,6 @@ import static com.miketheshadow.complexmmostats.utils.NBTData.*;
 public class CombatPlayer {
 
     public static HashMap<UUID,CombatPlayer> players = new HashMap<>();
-
-    private List<ItemStack> gear;
 
     private float damage;
     private float attackSpeed;
@@ -51,12 +51,6 @@ public class CombatPlayer {
     }
 
     public void update(Player player,ItemStack forceMainHand) {
-        List<ItemStack> currentGear = new ArrayList<>();
-        currentGear.add(player.getInventory().getItemInMainHand());
-        currentGear.add(player.getInventory().getItemInOffHand());
-        currentGear.addAll(Arrays.asList(player.getInventory().getArmorContents()));
-        if(currentGear == gear) return;
-        gear = currentGear;
 
         //reset health value
         this.bonusHealth = 0;
@@ -114,20 +108,24 @@ public class CombatPlayer {
         ItemStack offHand = inventory.getItemInOffHand();
 
         //check if the main hand is a weapon (shields do not count)
-        if(ItemChecker.isValidComplexMMOItem(mainHand) && !ItemChecker.isShield(mainHand) && !ItemChecker.isArmor(mainHand)) {
+        boolean isValidWeapon = ItemChecker.isAnyWeapon(mainHand);
+        boolean isTwoHanded = ItemChecker.isTwoHandedWeapon(mainHand);
+        boolean isOffhandShield = ItemChecker.isShield(offHand);
+        boolean isOffhandWeapon = ItemChecker.isOneHandedWeapon(offHand);
+
+        if(isValidWeapon) {
+            Bukkit.getConsoleSender().sendMessage("Handling: " + ItemChecker.getHandling(mainHand) + "" + mainHand.getItemMeta().getDisplayName());
             addMainHandStats(mainHand);
         } else if(ItemChecker.isValidComplexMMOItem(this.currentMainHand)) {
             //if the main hand is not a valid weapon then the player is considered unarmed.
             addMainHandStats(currentMainHand);
         }
+
         //Make sure that offhand is a valid weapon
+        if(!isTwoHanded && (isOffhandShield || isOffhandWeapon)) {
 
-        if(!ItemChecker.isTwoHandedWeapon(mainHand) && ItemChecker.isValidComplexMMOItem(offHand)) {
-
-            if (ItemChecker.isShield(offHand))  {
-                addStatsToSelf(offHand);
-            } else {
-                addStatsToSelf(offHand);
+            addStatsToSelf(offHand);
+            if (isOffhandShield) {
                 //add the duel wield bonus here
                 attackSpeed += .2;
             }
@@ -135,7 +133,7 @@ public class CombatPlayer {
 
 
         Arrays.stream(inventory.getArmorContents()).forEach(armor -> {
-            if(ItemChecker.isValidComplexMMOItem(armor)) addStatsToSelf(armor);
+            if(ItemChecker.isArmor(armor)) addStatsToSelf(armor);
         });
 
     }
@@ -143,8 +141,6 @@ public class CombatPlayer {
     private void addMainHandStats(ItemStack stack) {
         this.currentMainHand = stack;
         PersistentDataContainer container = stack.getItemMeta().getPersistentDataContainer();
-        //NBTContainer container = NBTItem.convertItemtoNBT(stack);
-        //NBTCompound weaponContainer = container.getCompound("tag");
         this.damage = container.get(NBTData.ATTACK_DAMAGE, PersistentDataType.INTEGER);
         //TODO ENABLE -> this.attackSpeed = weaponContainer.getFloat("attack_speed");
         addStats(container);
@@ -243,10 +239,6 @@ public class CombatPlayer {
 
     public float getParryRate() {
         return parryRate;
-    }
-
-    public List<ItemStack> getGear() {
-        return gear;
     }
 
     public float getDamage() {

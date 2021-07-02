@@ -63,6 +63,7 @@ public class PlayerAttacksPlayerAPI extends PlayerAttackBaseAPI {
             }
             //calculate defense bypass for block
             if(didBlock ^ !blockBypass) {
+
                 if((new Random()).nextInt(100) > 50) {
                     armorBypassAmount += defender.getInventory().getItemInOffHand().getItemMeta().getPersistentDataContainer().get(NBTData.DEFENSE, PersistentDataType.INTEGER);
                     createTemporaryHologram(damager,defender, ChatColor.RED + "Shield Penetrated!");

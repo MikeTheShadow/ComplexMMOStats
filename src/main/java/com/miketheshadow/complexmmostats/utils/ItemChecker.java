@@ -35,7 +35,7 @@ public class ItemChecker {
         return getHandling(stack) == 5;
     }
 
-    private static int getHandling(ItemStack stack) {
+    public static int getHandling(ItemStack stack) {
         PersistentDataContainer container = stack.getItemMeta().getPersistentDataContainer();
         return container.get(NBTData.CMMOITEM, PersistentDataType.INTEGER);
     }

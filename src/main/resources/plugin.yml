@@ -4,7 +4,7 @@ main: com.miketheshadow.complexmmostats.ComplexMMOStats
 api-version: 1.16
 authors: [ MikeTheShadow ]
 description: The most complex MMO stats ever. YUGEEEE
-softdepend:   [HolographicDisplays]
+softdepend:  [HolographicDisplays]
 commands:
   cmsummon:
     description: Summons an item from the config
@@ -19,5 +19,15 @@ commands:
   cmreload:
     description: Reload the plugin configs
     usage: /cmreload
+    permission: cmmos.Admin
+    permission-message: You don't have cmmos.Admin permission!
+  cmheal:
+    description: Heals the player who runs it
+    usage: /cmheal
+    permission: cmmos.Admin
+    permission-message: You don't have cmmos.Admin permission!
+  cmtest:
+    description: Used to test stuff
+    usage: /cmtest
     permission: cmmos.Admin
     permission-message: You don't have cmmos.Admin permission!

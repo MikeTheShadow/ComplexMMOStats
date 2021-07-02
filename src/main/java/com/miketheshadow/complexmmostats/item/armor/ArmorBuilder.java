@@ -50,7 +50,6 @@ public class ArmorBuilder extends ItemBuilder {
 
     public static ItemStack applyTags(ItemStack item, int handling, int defense, int durability, HashMap<Stat,Integer> stats, int rarity, Player player) {
 
-
         ItemMeta meta = item.getItemMeta();
         PersistentDataContainer container = meta.getPersistentDataContainer();
         modifyContainer(handling, durability, stats, rarity, player, container);

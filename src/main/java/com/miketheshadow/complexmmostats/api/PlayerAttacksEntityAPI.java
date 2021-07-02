@@ -11,6 +11,7 @@ import java.util.Random;
 
 public class PlayerAttacksEntityAPI extends PlayerAttackBaseAPI {
 
+    //TODO set killer in here somewhere thanks.
     public static void DealDamage(Player damager, LivingEntity defender, double percentOfDamage) {
 
         CombatPlayer combatDamager = CombatPlayer.getPlayer(damager);
@@ -62,5 +63,4 @@ public class PlayerAttacksEntityAPI extends PlayerAttackBaseAPI {
         updateCombatTimers(damager);
         updateAttackTimer(damager,combatDamager);
     }
-
 }
