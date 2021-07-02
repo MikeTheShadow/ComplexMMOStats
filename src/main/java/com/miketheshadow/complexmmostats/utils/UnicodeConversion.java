@@ -13,6 +13,25 @@ public class UnicodeConversion {
 
     public static String TWO_HANDER_ICON = createWithSpaces('\u200c', '\u200d', '\u200e', '\u2009', '\u200a', '\u200b');
 
+    public static String ITEM_LEVEL_1 = charToString('\u2010');
+    public static String ITEM_LEVEL_2 = charToString('\u2011');
+    public static String ITEM_LEVEL_3 = charToString('\u2012');
+    public static String ITEM_LEVEL_4 = charToString('\u2013');
+    public static String ITEM_LEVEL_5 = charToString('\u2014');
+    public static String ITEM_LEVEL_6 = charToString('\u2015');
+    public static String ITEM_LEVEL_7 = charToString('\u2016');
+    public static String ITEM_LEVEL_8 = charToString('\u2017');
+    public static String ITEM_LEVEL_9 = charToString('\u2018');
+    public static String ITEM_LEVEL_10 = charToString('\u2019');
+    public static String ITEM_LEVEL_11 = charToString('\u201a');
+    public static String ITEM_LEVEL_12 = charToString('\u201b');
+
+    private static String charToString(char character) {
+
+        return Character.toString(character);
+
+    }
+
     private static String createWithSpaces(char... items) {
 
         StringBuilder builder = new StringBuilder();
@@ -30,20 +49,8 @@ public class UnicodeConversion {
 
 DELETE AS USED
 
-200f
-2010
-2011
-2012
-2013
-2014
-2015
-2016
-2017
-2018
-2019
-201a
-201b
-201c
+// 200f Red square not yet used page 200
+//201c
 201d
 201e
 201f

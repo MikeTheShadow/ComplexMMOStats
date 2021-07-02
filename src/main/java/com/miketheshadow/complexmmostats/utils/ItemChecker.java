@@ -31,13 +31,13 @@ public class ItemChecker {
     }
 
     public static boolean isArmor(ItemStack stack) {
-
+        if(!isValidComplexMMOItem(stack)) return false;
         return getHandling(stack) == 5;
     }
 
     public static int getHandling(ItemStack stack) {
         PersistentDataContainer container = stack.getItemMeta().getPersistentDataContainer();
-        return container.get(NBTData.CMMOITEM, PersistentDataType.INTEGER);
+        return container.get(NBTData.HANDLING, PersistentDataType.INTEGER);
     }
 
     public static boolean isValidComplexMMOItem(ItemStack stack) {

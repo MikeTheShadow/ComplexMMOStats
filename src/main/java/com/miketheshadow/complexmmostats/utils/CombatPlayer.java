@@ -114,7 +114,6 @@ public class CombatPlayer {
         boolean isOffhandWeapon = ItemChecker.isOneHandedWeapon(offHand);
 
         if(isValidWeapon) {
-            Bukkit.getConsoleSender().sendMessage("Handling: " + ItemChecker.getHandling(mainHand) + "" + mainHand.getItemMeta().getDisplayName());
             addMainHandStats(mainHand);
         } else if(ItemChecker.isValidComplexMMOItem(this.currentMainHand)) {
             //if the main hand is not a valid weapon then the player is considered unarmed.
