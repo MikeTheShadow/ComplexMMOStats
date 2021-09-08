@@ -28,16 +28,16 @@ public class UnicodeConversion {
     public static final String ITEM_LEVEL_11 = charToString('\u201a');
     public static final String ITEM_LEVEL_12 = charToString('\u201b');
 
-    private static final char NUM_0 = '\u200f'; //NOTE this was the red square in the top corner
-    private static final char NUM_1 = '\u201c';
-    private static final char NUM_2 = '\u201d';
-    private static final char NUM_3 = '\u201e';
-    private static final char NUM_4 = '\u201f';
-    private static final char NUM_5 = '\u2020';
-    private static final char NUM_6 = '\u2021';
-    private static final char NUM_7 = '\u2022';
-    private static final char NUM_8 = '\u2023';
-    private static final char NUM_9 = '\u2024';
+    public static final char NUM_0 = '\u200f'; //NOTE this was the red square in the top corner
+    public static final char NUM_1 = '\u201c';
+    public static final char NUM_2 = '\u201d';
+    public static final char NUM_3 = '\u201e';
+    public static final char NUM_4 = '\u201f';
+    public static final char NUM_5 = '\u2020';
+    public static final char NUM_6 = '\u2021';
+    public static final char NUM_7 = '\u2022';
+    public static final char NUM_8 = '\u2023';
+    public static final char NUM_9 = '\u2024';
 
     public static String numToUnicode(long num) {
 
@@ -78,7 +78,7 @@ public class UnicodeConversion {
                     unicodeString.append(NUM_0);
                     break;
             }
-            unicodeString.append(N_SPACE_2);
+            //unicodeString.append(N_SPACE_2);
         }
 
         return unicodeString.toString();

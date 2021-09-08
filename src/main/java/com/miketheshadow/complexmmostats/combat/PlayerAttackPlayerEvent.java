@@ -1,14 +1,12 @@
 package com.miketheshadow.complexmmostats.combat;
 
 import com.miketheshadow.complexmmostats.api.PlayerAttacksPlayerAPI;
-import com.miketheshadow.complexmmostats.utils.ItemChecker;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerItemDamageEvent;
 
 /**
  * Player attacks a player with a weapon only. This will not account for attacks with fire tick explosives etc.

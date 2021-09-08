@@ -40,6 +40,11 @@ public class CMTestCommand extends BasicCommand {
         lore.add(R + UnicodeConversion.numToUnicode(1234567890987654321L));
         lore.add(R + UnicodeConversion.ONE_HANDER_ICON);
         lore.add(R + UnicodeConversion.TWO_HANDER_ICON);
+        lore.add(R + UnicodeConversion.NUM_1);
+        lore.add(R + UnicodeConversion.NUM_2);
+        lore.add(R + UnicodeConversion.NUM_3);
+        lore.add(R + UnicodeConversion.NUM_4);
+        lore.add(R + UnicodeConversion.NUM_5);
 
         meta.setLore(lore);
 

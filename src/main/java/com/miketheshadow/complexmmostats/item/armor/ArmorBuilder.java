@@ -62,5 +62,4 @@ public class ArmorBuilder extends ItemBuilder {
         return item;
     }
 
-
 }

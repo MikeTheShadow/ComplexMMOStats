@@ -1,7 +1,6 @@
 package com.miketheshadow.complexmmostats.combat;
 
 import com.miketheshadow.complexmmostats.utils.CombatPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,10 +15,9 @@ public class ComplexLoginEvent implements Listener {
         Player player = event.getPlayer();
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(5000);
 
-        if(!CombatPlayer.players.containsKey(event.getPlayer().getUniqueId())) {
-            Bukkit.getConsoleSender().sendMessage("Fresh player join! " + event.getPlayer().getName());
+        if (!CombatPlayer.players.containsKey(event.getPlayer().getUniqueId())) {
             player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-            CombatPlayer.players.put(event.getPlayer().getUniqueId(),new CombatPlayer(event.getPlayer(),null));
+            CombatPlayer.players.put(event.getPlayer().getUniqueId(), new CombatPlayer(event.getPlayer(), null));
         }
     }
 
