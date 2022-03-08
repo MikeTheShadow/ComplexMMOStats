@@ -24,15 +24,15 @@ public class PlayerAttackBaseAPI {
     public static HashMap<UUID, AttackTimer> combatInfo = new HashMap<>();
 
     public static boolean cannotAttack(Player attacker, Entity defender) {
-        EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(attacker,defender, EntityDamageEvent.DamageCause.CUSTOM,0);
+        EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(attacker, defender, EntityDamageEvent.DamageCause.CUSTOM, 0);
         Bukkit.getPluginManager().callEvent(event);
         return event.isCancelled();
     }
 
     public static void createTemporaryHologram(Player player, Player player2, String text) {
-        if(!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) return;
+        if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) return;
         Location location = player.getLocation();
-        location.add(0,2,0);
+        location.add(0, 2, 0);
 
         Hologram hologram = HologramsAPI.createHologram(ComplexMMOStats.INSTANCE, location);
         hologram.appendTextLine(text);
@@ -42,8 +42,11 @@ public class PlayerAttackBaseAPI {
         (new BukkitRunnable() {
             @Override
             public void run() {
-                try { Thread.sleep(1000); }
-                catch (InterruptedException e) { e.printStackTrace(); }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 hologram.delete();
             }
         }).runTaskAsynchronously(ComplexMMOStats.INSTANCE);
@@ -51,22 +54,22 @@ public class PlayerAttackBaseAPI {
 
     public static void updateAttackTimer(Player player, CombatPlayer combatPlayer) {
         UUID uuid = player.getUniqueId();
-        LocalDateTime attackResetTime = LocalDateTime.now().plus((long) ((1 / combatPlayer.getAttackSpeed()) * 1000),MILLIS);
+        LocalDateTime attackResetTime = LocalDateTime.now().plus((long) ((1 / combatPlayer.getAttackSpeed()) * 1000), MILLIS);
 
-        if(combatInfo.containsKey(uuid)) {
+        if (combatInfo.containsKey(uuid)) {
             combatInfo.get(uuid).setAttackTime(attackResetTime);
         } else {
-            combatInfo.put(uuid,new AttackTimer(attackResetTime));
+            combatInfo.put(uuid, new AttackTimer(attackResetTime));
         }
     }
 
     public static void updateCombatTimers(Player... players) {
-        for(Player player : players) {
+        for (Player player : players) {
             UUID uuid = player.getUniqueId();
-            if(combatInfo.containsKey(uuid)) {
+            if (combatInfo.containsKey(uuid)) {
                 combatInfo.get(uuid).setCombatTime(LocalDateTime.now());
             } else {
-                combatInfo.put(uuid,new AttackTimer());
+                combatInfo.put(uuid, new AttackTimer());
             }
         }
     }

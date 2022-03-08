@@ -22,7 +22,7 @@ public class CMTestCommand extends BasicCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if(!(sender instanceof Player)) return true;
+        if (!(sender instanceof Player)) return true;
 
         ItemStack stack = new ItemStack(Material.STICK);
 

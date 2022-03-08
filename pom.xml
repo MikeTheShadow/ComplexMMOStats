@@ -11,9 +11,9 @@
 
     <name>ComplexMMOStats</name>
 
-    <description>The most complex MMO stats ever. YUGEEEE</description>
+    <description>Complex MMO stats with weapon/armor integration</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>16</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -76,17 +76,21 @@
             <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>3.12.1</version>
+            <version>3.12.10</version>
         </dependency>
         <dependency>
             <groupId>com.gmail.filoghost.holographicdisplays</groupId>
             <artifactId>holographicdisplays-api</artifactId>
             <version>2.4.5</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.miketheshadow</groupId>
+            <artifactId>MMOTextAPI</artifactId>
+            <version>0.3.0</version>
         </dependency>
     </dependencies>
 </project>

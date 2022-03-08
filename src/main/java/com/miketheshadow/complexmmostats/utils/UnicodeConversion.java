@@ -45,7 +45,7 @@ public class UnicodeConversion {
 
         StringBuilder unicodeString = new StringBuilder();
 
-        for(char c : numString.toCharArray()) {
+        for (char c : numString.toCharArray()) {
             switch (c) {
                 case '1':
                     unicodeString.append(NUM_1);

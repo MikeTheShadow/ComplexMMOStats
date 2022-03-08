@@ -19,19 +19,18 @@ public class CMSummonTabComplete implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
 
-        if(args.length == 3) {
+        if (args.length == 3) {
             return Arrays.asList("true", "false");
         }
 
-        if(args.length > 1) return null;
-
+        if (args.length > 1) return null;
 
 
         Set<String> shieldIds = ShieldConfig.SHIELD_CONFIG.getKeys(false);
-        Set<String> weaponIds =  WeaponConfig.WEAPON_CONFIG.getKeys(false);
-        Set<String> armorIds  = ArmorConfig.ARMOR_CONFIG.getKeys(false);
+        Set<String> weaponIds = WeaponConfig.WEAPON_CONFIG.getKeys(false);
+        Set<String> armorIds = ArmorConfig.ARMOR_CONFIG.getKeys(false);
         List<String> completeArmorIds = new ArrayList<>();
-        for(String id : armorIds) {
+        for (String id : armorIds) {
 
             completeArmorIds.add(id + "_HELMET");
             completeArmorIds.add(id + "_CHESTPLATE");
@@ -44,11 +43,11 @@ public class CMSummonTabComplete implements TabCompleter {
         returnList.addAll(weaponIds);
         returnList.addAll(completeArmorIds);
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             List<String> modifiedReturnList = new ArrayList<>();
 
-            for(String s : returnList) {
-                if(s.startsWith(args[0])) modifiedReturnList.add(s);
+            for (String s : returnList) {
+                if (s.startsWith(args[0])) modifiedReturnList.add(s);
             }
 
             return modifiedReturnList;

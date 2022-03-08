@@ -18,23 +18,23 @@ public class SwapWeaponsEvent implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerSwapWeaponEvent(PlayerItemHeldEvent event) {
-        if(event.isCancelled()) return;
+        if (event.isCancelled()) return;
         ItemStack stack = event.getPlayer().getInventory().getItem(event.getNewSlot());
-        if(stack == null) {
+        if (stack == null) {
             stack = new ItemStack(Material.AIR);
         }
         //if(ItemChecker.isValidComplexMMOItem(stack) && !NBTItem.convertItemtoNBT(CombatPlayer.getPlayer(event.getPlayer()).getCurrentMainHand()).toString().equals(NBTItem.convertItemtoNBT(stack).toString()))
         ItemStack mainHand = CombatPlayer.getPlayer(event.getPlayer()).getCurrentMainHand();
         ItemStack offHand = stack;
-            if(ItemChecker.isAnyWeapon(stack) && ItemChecker.isDifferentWeapon(mainHand,offHand))
-            CombatPlayer.getPlayer(event.getPlayer()).update(event.getPlayer(),stack);
+        if (ItemChecker.isAnyWeapon(stack) && ItemChecker.isDifferentWeapon(mainHand, offHand))
+            CombatPlayer.getPlayer(event.getPlayer()).update(event.getPlayer(), stack);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerSwapArmorWeaponEvent(InventoryClickEvent event) {
-        if(event.isCancelled()) return;
+        if (event.isCancelled()) return;
 
-        updatePlayerLater((Player)event.getWhoClicked());
+        updatePlayerLater((Player) event.getWhoClicked());
     }
 
     private void updatePlayerLater(Player player) {
@@ -42,8 +42,8 @@ public class SwapWeaponsEvent implements Listener {
             @Override
             public void run() {
                 Player attemptRefresh = Bukkit.getPlayer(player.getUniqueId());
-                CombatPlayer.getPlayer(player).update(attemptRefresh,null);
+                CombatPlayer.getPlayer(player).update(attemptRefresh, null);
             }
-        }).runTaskLater(ComplexMMOStats.INSTANCE,1);
+        }).runTaskLater(ComplexMMOStats.INSTANCE, 1);
     }
 }
