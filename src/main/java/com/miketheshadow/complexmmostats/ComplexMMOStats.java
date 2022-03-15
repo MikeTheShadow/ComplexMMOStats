@@ -64,10 +64,6 @@ public final class ComplexMMOStats extends JavaPlugin {
         manager.registerEvents(new SwapWeaponsEvent(), this);
         manager.registerEvents(new HealthRegenEvent(), this);
         manager.registerEvents(new PlayerAttacksEntityListener(), this);
-//        new CMSummonCommand();
-//        new TypeCommand();
-//        new CMReloadCommand();
-//        new CMTestCommand();
 
         try {
             registerCommands();

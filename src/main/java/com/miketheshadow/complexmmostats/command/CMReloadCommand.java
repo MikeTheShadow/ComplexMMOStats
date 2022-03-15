@@ -4,13 +4,11 @@ import com.miketheshadow.complexmmostats.ComplexMMOStats;
 import com.miketheshadow.complexmmostats.annotations.CMMOCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 @CMMOCommand(command = "cmreload")
-public class CMReloadCommand extends BasicCommand {
-    public CMReloadCommand() {
-        super("cmreload");
-    }
+public class CMReloadCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

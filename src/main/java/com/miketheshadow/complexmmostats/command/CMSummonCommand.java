@@ -7,17 +7,13 @@ import com.miketheshadow.complexmmostats.item.weapon.WeaponConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 @CMMOCommand(command = "cmsummon")
-public class CMSummonCommand extends BasicCommand {
-
-
-    public CMSummonCommand() {
-        super("cmsummon", new CMSummonTabComplete());
-    }
+public class CMSummonCommand  implements CommandExecutor {
 
     private static final String[] parts = {"HELMET", "CHESTPLATE", "LEGGINGS", "BOOTS"};
 
