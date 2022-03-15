@@ -1,5 +1,6 @@
 package com.miketheshadow.complexmmostats.utils;
 
+import com.miketheshadow.complexmmostats.ComplexMMOStats;
 import com.miketheshadow.mmotextapi.text.ItemStat;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
@@ -47,7 +48,7 @@ public class CombatPlayer {
 
     private ItemStack currentMainHand;
 
-    private final HashMap<ItemStat, Integer> statMap = buildEmptyMap();
+    private final HashMap<ItemStat, Integer> PLAYER_STATS = buildEmptyMap();
 
     public CombatPlayer(Player player, ItemStack forceMainHand) {
         update(player, forceMainHand);
@@ -55,21 +56,14 @@ public class CombatPlayer {
 
     public void update(Player player, ItemStack forceMainHand) {
 
-        //reset health value
-        this.bonusHealth = 0;
-        damage = 0;
-        //critical stuff
-        criticalRate = 10;
-        criticalDamage = 50;
-        flatBonusAD = 0;
-        percentBonusDamage = 0;
-        //STORE AS .00
-        percentDamageReduction = 0;
+        //reset health value //todo figure out if this is fixed with moving everything to map
+        //this.bonusHealth = 0;
 
-        //defensive stats
-        defense = 0;
-        blockRate = 0.1F;
-        parryRate = 0;
+        // Set flat defaults here.
+        PLAYER_STATS.put(CRITICAL_RATE,20);
+        PLAYER_STATS.put(CRITICAL_DAMAGE,50);
+        PLAYER_STATS.put(BLOCK_RATE,10);
+
         calculateOffensiveStats(player, forceMainHand);
 
 
@@ -89,7 +83,6 @@ public class CombatPlayer {
         //player.sendMessage(ChatColor.GREEN + ":" + damage);
         //calculate defense
         percentDamageReduction = defense / (defense + 7900);
-
     }
 
     /*
@@ -125,14 +118,12 @@ public class CombatPlayer {
 
         //Make sure that offhand is a valid weapon
         if (!isTwoHanded && (isOffhandShield || isOffhandWeapon)) {
-
             addStatsToSelf(offHand);
             if (isOffhandShield) {
                 //add the duel wield bonus here
                 attackSpeed += .2;
             }
         }
-
 
         Arrays.stream(inventory.getArmorContents()).forEach(armor -> {
             if (ItemChecker.isArmor(armor)) addStatsToSelf(armor);
@@ -143,7 +134,7 @@ public class CombatPlayer {
     private void addMainHandStats(ItemStack stack) {
         this.currentMainHand = stack;
         PersistentDataContainer container = stack.getItemMeta().getPersistentDataContainer();
-        this.damage = container.get(CMMOKeys.ATTACK_DAMAGE, PersistentDataType.INTEGER);
+        this.damage = container.get(ItemStat.ATTACK_DAMAGE.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
         //TODO ENABLE -> this.attackSpeed = weaponContainer.getFloat("attack_speed");
         addStats(container);
     }
@@ -158,25 +149,24 @@ public class CombatPlayer {
             int amount = container.get(STRENGTH.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
             this.damage += (amount * 0.4);
             this.parryRate += (amount * 0.03);
-            statMap.put(STRENGTH, statMap.get(STRENGTH) + amount);
+            PLAYER_STATS.put(STRENGTH, PLAYER_STATS.get(STRENGTH) + amount);
         }
-
         if (container.has(STAMINA.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER)) {
             int amount = container.get(STAMINA.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
             this.bonusHealth += amount * 10;
             this.blockRate += (amount * 0.03);
-            statMap.put(STAMINA, statMap.get(STAMINA) + amount);
+            PLAYER_STATS.put(STAMINA, PLAYER_STATS.get(STAMINA) + amount);
         }
         if (container.has(AGILITY.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER)) {
             int amount = container.get(AGILITY.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
             this.criticalRate += amount * 0.05;
             this.criticalDamage += amount * 0.05;
-            statMap.put(AGILITY, statMap.get(AGILITY) + amount);
+            PLAYER_STATS.put(AGILITY, PLAYER_STATS.get(AGILITY) + amount);
         }
         if (container.has(INTELLIGENCE.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER)) {
             int amount = container.get(INTELLIGENCE.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
             this.intel += amount;
-            statMap.put(INTELLIGENCE, statMap.get(INTELLIGENCE) + amount);
+            PLAYER_STATS.put(INTELLIGENCE, PLAYER_STATS.get(INTELLIGENCE) + amount);
         }
 
         /*

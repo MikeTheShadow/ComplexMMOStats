@@ -1,6 +1,7 @@
 package com.miketheshadow.complexmmostats.item.weapon;
 
 import com.miketheshadow.complexmmostats.ComplexMMOStats;
+import com.miketheshadow.complexmmostats.utils.ItemBuilder;
 import com.miketheshadow.mmotextapi.text.ItemStat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -58,7 +59,7 @@ public class ShieldConfig {
 
     public static ItemStack getItemFromConfig(String itemName, Player player) {
 
-        //makes it easier to get sub items when the . is added first
+        //makes it easier to get sub items when the '.' is added first
         String id = itemName + ".";
 
         if (SHIELD_CONFIG.getString(itemName) == null) return null;
@@ -72,16 +73,15 @@ public class ShieldConfig {
                 statMap.put(stat, statAmount);
             }
         }
-
         //create the shield here
-        return ShieldBuilder.createShield(SHIELD_CONFIG.getString(id + "VisibleName"),
+        return ItemBuilder.createItemFromStats(SHIELD_CONFIG.getString(id + "VisibleName"),
+                Material.valueOf(SHIELD_CONFIG.getString(id + "Material")),
                 SHIELD_CONFIG.getString(id + "Type"),
-                SHIELD_CONFIG.getInt(id + "Wield"),
+                3,
                 SHIELD_CONFIG.getInt(id + "Defense"),
                 SHIELD_CONFIG.getInt(id + "Durability"),
                 statMap,
-                SHIELD_CONFIG.getInt(id + "Rarity"),
-                Material.valueOf(SHIELD_CONFIG.getString(id + "Material"))
+                SHIELD_CONFIG.getInt(id + "Rarity")
                 , player);
     }
 

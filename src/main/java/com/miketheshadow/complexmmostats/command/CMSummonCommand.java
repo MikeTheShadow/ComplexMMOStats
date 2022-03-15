@@ -1,5 +1,6 @@
 package com.miketheshadow.complexmmostats.command;
 
+import com.miketheshadow.complexmmostats.annotations.CMMOCommand;
 import com.miketheshadow.complexmmostats.item.armor.ArmorConfig;
 import com.miketheshadow.complexmmostats.item.weapon.ShieldConfig;
 import com.miketheshadow.complexmmostats.item.weapon.WeaponConfig;
@@ -10,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+@CMMOCommand(command = "cmsummon")
 public class CMSummonCommand extends BasicCommand {
 
 

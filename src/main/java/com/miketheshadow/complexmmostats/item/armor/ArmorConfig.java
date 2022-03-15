@@ -1,6 +1,7 @@
 package com.miketheshadow.complexmmostats.item.armor;
 
 import com.miketheshadow.complexmmostats.ComplexMMOStats;
+import com.miketheshadow.complexmmostats.utils.ItemBuilder;
 import com.miketheshadow.mmotextapi.text.ItemStat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -82,14 +83,14 @@ public class ArmorConfig {
         int defense = (int) Math.round(ARMOR_CONFIG.getInt(id + "Defense") * partStatAmount);
 
         //create the armor here
-        return ArmorBuilder.createArmor(ARMOR_CONFIG.getString(id + "VisibleName"),
-                ARMOR_CONFIG.getInt(id + "Wield"),
+        return ItemBuilder.createItemFromStats(ARMOR_CONFIG.getString(id + "VisibleName"),
+                Material.valueOf(ARMOR_CONFIG.getString(id + "Material") + "_" + partName),
+                partName,
+                5,
                 defense,
                 ARMOR_CONFIG.getInt(id + "Durability"),
                 statMap,
-                ARMOR_CONFIG.getInt(id + "Rarity"),
-                Material.valueOf(ARMOR_CONFIG.getString(id + "Material") + "_" + partName),
-                partName
+                ARMOR_CONFIG.getInt(id + "Rarity")
                 , player);
     }
 

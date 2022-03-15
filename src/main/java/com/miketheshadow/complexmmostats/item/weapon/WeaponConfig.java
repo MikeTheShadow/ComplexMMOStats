@@ -1,6 +1,7 @@
 package com.miketheshadow.complexmmostats.item.weapon;
 
 import com.miketheshadow.complexmmostats.ComplexMMOStats;
+import com.miketheshadow.complexmmostats.utils.ItemBuilder;
 import com.miketheshadow.mmotextapi.text.ItemStat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -75,9 +76,12 @@ public class WeaponConfig {
             }
         }
 
+//        (String itemName, Material material, String weaponType, int handling, int defense, int durability,
+//        HashMap<ItemStat, Integer> baseStats, Player player)
+
         //create the weapon here
-        //(String weaponName, String weaponType, int attackDamage, int durability, HashMap<Stat,Integer> stats, String rarity, String creatorName, Material material)
-        return WeaponBuilder.createWeapon(WEAPON_CONFIG.getString(id + "VisibleName"),
+        return ItemBuilder.createWeaponFromStats(WEAPON_CONFIG.getString(id + "VisibleName"),
+                Material.valueOf(WEAPON_CONFIG.getString(id + "Material")),
                 WEAPON_CONFIG.getString(id + "Type"),
                 WEAPON_CONFIG.getInt(id + "Wield"),
                 WEAPON_CONFIG.getInt(id + "AttackDamage"),
@@ -85,7 +89,6 @@ public class WeaponConfig {
                 statMap,
                 WEAPON_CONFIG.getInt(id + "Rarity"),
                 WEAPON_CONFIG.getInt(id + "AttackSpeed")
-                , Material.valueOf(WEAPON_CONFIG.getString(id + "Material"))
                 , player);
     }
 }

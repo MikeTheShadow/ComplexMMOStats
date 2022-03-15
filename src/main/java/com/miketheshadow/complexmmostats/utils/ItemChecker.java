@@ -1,5 +1,7 @@
 package com.miketheshadow.complexmmostats.utils;
 
+import com.miketheshadow.complexmmostats.ComplexMMOStats;
+import com.miketheshadow.mmotextapi.text.ItemStat;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -35,7 +37,7 @@ public class ItemChecker {
 
     public static int getHandling(ItemStack stack) {
         PersistentDataContainer container = stack.getItemMeta().getPersistentDataContainer();
-        return container.get(CMMOKeys.HANDLING, PersistentDataType.INTEGER);
+        return container.get(ItemStat.HANDLING.getNameSpacedKey(ComplexMMOStats.INSTANCE), PersistentDataType.INTEGER);
     }
 
     public static boolean isValidComplexMMOItem(ItemStack stack) {

@@ -1,8 +1,10 @@
 package com.miketheshadow.complexmmostats.api;
 
+import com.miketheshadow.complexmmostats.ComplexMMOStats;
 import com.miketheshadow.complexmmostats.utils.CMMOKeys;
 import com.miketheshadow.complexmmostats.utils.CombatPlayer;
 import com.miketheshadow.complexmmostats.utils.ItemChecker;
+import com.miketheshadow.mmotextapi.text.ItemStat;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -65,7 +67,7 @@ public class PlayerAttacksPlayerAPI extends PlayerAttackBaseAPI {
             if (didBlock ^ !blockBypass) {
 
                 if ((new Random()).nextInt(100) > 50) {
-                    armorBypassAmount += defender.getInventory().getItemInOffHand().getItemMeta().getPersistentDataContainer().get(CMMOKeys.DEFENSE, PersistentDataType.INTEGER);
+                    armorBypassAmount += defender.getInventory().getItemInOffHand().getItemMeta().getPersistentDataContainer().get(ItemStat.DEFENSE.getNameSpacedKey(ComplexMMOStats.INSTANCE), PersistentDataType.INTEGER);
                     createTemporaryHologram(damager, defender, ChatColor.RED + "Shield Penetrated!");
                     createTemporaryHologram(defender, damager, ChatColor.GREEN + "Shield Penetrated!");
                 }
