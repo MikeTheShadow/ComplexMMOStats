@@ -5,6 +5,7 @@ api-version: 1.16
 authors: [ MikeTheShadow ]
 description: The most complex MMO stats ever. YUGEEEE
 softdepend:  [HolographicDisplays]
+depend: [MMOTextAPI]
 commands:
   cmsummon:
     description: Summons an item from the config
