@@ -15,9 +15,9 @@ public class ComplexLoginEvent implements Listener {
         Player player = event.getPlayer();
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(5000);
 
-        if(!CombatPlayer.players.containsKey(event.getPlayer().getUniqueId())) {
+        if (!CombatPlayer.players.containsKey(event.getPlayer().getUniqueId())) {
             player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-            CombatPlayer.players.put(event.getPlayer().getUniqueId(),new CombatPlayer(event.getPlayer(),null));
+            CombatPlayer.players.put(event.getPlayer().getUniqueId(), new CombatPlayer(event.getPlayer(), null));
         }
     }
 

@@ -8,7 +8,7 @@ public class AttackTimer {
     private LocalDateTime combatTime;
     private LocalDateTime attackTime;
 
-    public  AttackTimer() {
+    public AttackTimer() {
         combatTime = LocalDateTime.now();
         attackTime = LocalDateTime.now().minus(5, ChronoUnit.SECONDS);
     }

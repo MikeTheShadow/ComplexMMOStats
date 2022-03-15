@@ -1,21 +1,25 @@
 package com.miketheshadow.complexmmostats.utils;
 
-import de.tr7zw.nbtapi.NBTCompound;
-import de.tr7zw.nbtapi.NBTContainer;
-import de.tr7zw.nbtapi.NBTItem;
+import com.miketheshadow.complexmmostats.ComplexMMOStats;
+import com.miketheshadow.mmotextapi.text.ItemStat;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.UUID;
+
+import static com.miketheshadow.complexmmostats.ComplexMMOStats.INSTANCE;
+import static com.miketheshadow.mmotextapi.text.ItemStat.*;
 
 public class CombatPlayer {
 
-    public static HashMap<UUID,CombatPlayer> players = new HashMap<>();
-
-    private List<ItemStack> gear;
+    public static HashMap<UUID, CombatPlayer> players = new HashMap<>();
 
     private float damage;
     private float attackSpeed;
@@ -32,66 +36,53 @@ public class CombatPlayer {
     private float blockRate = 0.1F;
     private float parryRate;
 
+    private HashMap<String, Float> flatStats;
+    private HashMap<String, Float> percentBonusStats;
 
     //TODO get this rather than having it be a fixed value
     private final double baseHealth = 5000;
 
     private float intel;
 
-
     public double bonusHealth = 0;
 
     private ItemStack currentMainHand;
 
-    private final HashMap<Stat,Integer> statMap = buildEmptyMap();
+    private final HashMap<ItemStat, Integer> PLAYER_STATS = buildEmptyMap();
 
-    public CombatPlayer(Player player,ItemStack forceMainHand) {
-        update(player,forceMainHand);
+    public CombatPlayer(Player player, ItemStack forceMainHand) {
+        update(player, forceMainHand);
     }
 
-    public void update(Player player,ItemStack forceMainHand) {
-        List<ItemStack> currentGear = new ArrayList<>();
-        currentGear.add(player.getInventory().getItemInMainHand());
-        currentGear.add(player.getInventory().getItemInOffHand());
-        currentGear.addAll(Arrays.asList(player.getInventory().getArmorContents()));
-        if(currentGear == gear) return;
-        gear = currentGear;
+    public void update(Player player, ItemStack forceMainHand) {
 
-        //reset health value
-        this.bonusHealth = 0;
-        damage = 0;
-        //critical stuff
-        criticalRate = 10;
-        criticalDamage = 50;
-        flatBonusAD = 0;
-        percentBonusDamage = 0;
-        //STORE AS .00
-        percentDamageReduction = 0;
+        //reset health value //todo figure out if this is fixed with moving everything to map
+        //this.bonusHealth = 0;
 
-        //defensive stats
-        defense = 0;
-        blockRate = 0.1F;
-        parryRate = 0;
-        calculateOffensiveStats(player,forceMainHand);
+        // Set flat defaults here.
+        PLAYER_STATS.put(CRITICAL_RATE,20);
+        PLAYER_STATS.put(CRITICAL_DAMAGE,50);
+        PLAYER_STATS.put(BLOCK_RATE,10);
+
+        calculateOffensiveStats(player, forceMainHand);
 
 
         //calculate final stats
         double totalHealth = baseHealth + bonusHealth;
 
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(totalHealth);
-        //player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(2.4 + attackSpeed);
-        player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(2.4 + ( 1 / attackSpeed));
+        player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(2.4 + attackSpeed);
+        //player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(2.4 + ( 1 / attackSpeed));
         player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
         player.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(0);
         player.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS).setBaseValue(0);
         player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(0);
-        if(player.getHealth() > player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()) {
+        if (player.getHealth() > player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()) {
             player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
         }
         //player.sendMessage(ChatColor.GREEN + ":" + damage);
         //calculate defense
         percentDamageReduction = defense / (defense + 7900);
-
     }
 
     /*
@@ -104,7 +95,7 @@ public class CombatPlayer {
      */
 
 
-    private void calculateOffensiveStats(Player player,ItemStack forceMainHand) {
+    private void calculateOffensiveStats(Player player, ItemStack forceMainHand) {
 
         attackSpeed = 1;
 
@@ -113,78 +104,106 @@ public class CombatPlayer {
         ItemStack offHand = inventory.getItemInOffHand();
 
         //check if the main hand is a weapon (shields do not count)
-        if(ItemChecker.isValidComplexMMOItem(mainHand) && !ItemChecker.isShield(mainHand) && !ItemChecker.isArmor(mainHand)) {
+        boolean isValidWeapon = ItemChecker.isAnyWeapon(mainHand);
+        boolean isTwoHanded = ItemChecker.isTwoHandedWeapon(mainHand);
+        boolean isOffhandShield = ItemChecker.isShield(offHand);
+        boolean isOffhandWeapon = ItemChecker.isOneHandedWeapon(offHand);
+
+        if (isValidWeapon) {
             addMainHandStats(mainHand);
-        } else if(ItemChecker.isValidComplexMMOItem(this.currentMainHand)) {
+        } else if (ItemChecker.isValidComplexMMOItem(this.currentMainHand)) {
             //if the main hand is not a valid weapon then the player is considered unarmed.
             addMainHandStats(currentMainHand);
         }
+
         //Make sure that offhand is a valid weapon
-
-        if(!ItemChecker.isTwoHandedWeapon(mainHand) && ItemChecker.isValidComplexMMOItem(offHand)) {
-
-            if (ItemChecker.isShield(offHand))  {
-                addStatsToSelf(offHand);
-            } else {
-                addStatsToSelf(offHand);
+        if (!isTwoHanded && (isOffhandShield || isOffhandWeapon)) {
+            addStatsToSelf(offHand);
+            if (isOffhandShield) {
                 //add the duel wield bonus here
                 attackSpeed += .2;
             }
         }
 
-
         Arrays.stream(inventory.getArmorContents()).forEach(armor -> {
-            if(ItemChecker.isValidComplexMMOItem(armor)) addStatsToSelf(armor);
+            if (ItemChecker.isArmor(armor)) addStatsToSelf(armor);
         });
 
     }
 
     private void addMainHandStats(ItemStack stack) {
         this.currentMainHand = stack;
-        NBTContainer container = NBTItem.convertItemtoNBT(stack);
-        NBTCompound weaponContainer = container.getCompound("tag");
-        this.damage = weaponContainer.getInteger("attack_damage");
+        PersistentDataContainer container = stack.getItemMeta().getPersistentDataContainer();
+        this.damage = container.get(ItemStat.ATTACK_DAMAGE.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
         //TODO ENABLE -> this.attackSpeed = weaponContainer.getFloat("attack_speed");
-        addStats(weaponContainer);
+        addStats(container);
     }
 
     private void addStatsToSelf(ItemStack stack) {
-        NBTContainer container = NBTItem.convertItemtoNBT(stack);
-        NBTCompound weaponContainer = container.getCompound("tag");
-        addStats(weaponContainer);
+        addStats(stack.getItemMeta().getPersistentDataContainer());
     }
 
-    private void addStats(NBTCompound compound) {
+    private void addStats(PersistentDataContainer container) {
 
-        if(compound.hasKey(Stat.STRENGTH.name())) {
-            int amount = compound.getInteger(Stat.STRENGTH.name());
+        if (container.has(STRENGTH.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER)) {
+            int amount = container.get(STRENGTH.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
             this.damage += (amount * 0.4);
             this.parryRate += (amount * 0.03);
-            statMap.put(Stat.STRENGTH,statMap.get(Stat.STRENGTH) + amount);
+            PLAYER_STATS.put(STRENGTH, PLAYER_STATS.get(STRENGTH) + amount);
         }
-
-        if(compound.hasKey(Stat.STAMINA.name())) {
-            int amount = compound.getInteger(Stat.STAMINA.name());
+        if (container.has(STAMINA.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER)) {
+            int amount = container.get(STAMINA.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
             this.bonusHealth += amount * 10;
             this.blockRate += (amount * 0.03);
-            statMap.put(Stat.STAMINA,statMap.get(Stat.STAMINA) + amount);
+            PLAYER_STATS.put(STAMINA, PLAYER_STATS.get(STAMINA) + amount);
         }
-        if(compound.hasKey(Stat.AGILITY.name())) {
-            int amount = compound.getInteger(Stat.AGILITY.name());
+        if (container.has(AGILITY.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER)) {
+            int amount = container.get(AGILITY.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
             this.criticalRate += amount * 0.05;
             this.criticalDamage += amount * 0.05;
-            statMap.put(Stat.AGILITY,statMap.get(Stat.AGILITY) + amount);
+            PLAYER_STATS.put(AGILITY, PLAYER_STATS.get(AGILITY) + amount);
         }
-        if(compound.hasKey(Stat.INTELLIGENCE.name())) {
-            int amount = compound.getInteger(Stat.INTELLIGENCE.name());
+        if (container.has(INTELLIGENCE.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER)) {
+            int amount = container.get(INTELLIGENCE.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
             this.intel += amount;
-            statMap.put(Stat.INTELLIGENCE,statMap.get(Stat.INTELLIGENCE) + amount);
+            PLAYER_STATS.put(INTELLIGENCE, PLAYER_STATS.get(INTELLIGENCE) + amount);
         }
 
+        /*
+        if(compound.hasKey(STRENGTH.name())) {
+            int amount = compound.getInteger(STRENGTH.name());
+            this.damage += (amount * 0.4);
+            this.parryRate += (amount * 0.03);
+            statMap.put(STRENGTH,statMap.get(STRENGTH) + amount);
+        }
+
+        if(compound.hasKey(STAMINA.name())) {
+            int amount = compound.getInteger(STAMINA.name());
+            this.bonusHealth += amount * 10;
+            this.blockRate += (amount * 0.03);
+            statMap.put(STAMINA,statMap.get(STAMINA) + amount);
+        }
+        if(compound.hasKey(AGILITY.name())) {
+            int amount = compound.getInteger(AGILITY.name());
+            this.criticalRate += amount * 0.05;
+            this.criticalDamage += amount * 0.05;
+            statMap.put(AGILITY,statMap.get(AGILITY) + amount);
+        }
+        if(compound.hasKey(INTELLIGENCE.name())) {
+            int amount = compound.getInteger(INTELLIGENCE.name());
+            this.intel += amount;
+            statMap.put(INTELLIGENCE,statMap.get(INTELLIGENCE) + amount);
         //for shields or armor
 
         if(compound.hasKey("defense")) {
             this.defense += compound.getInteger("defense");
+        }
+        }
+         */
+
+        //for shields or armor
+        if (container.has(DEFENSE.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER)) {
+            this.defense += container.get(DEFENSE.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
         }
 
     }
@@ -193,16 +212,17 @@ public class CombatPlayer {
         return this.currentMainHand;
     }
 
-    private HashMap<Stat,Integer> buildEmptyMap() {
-        HashMap<Stat,Integer> quickMap = new HashMap<>();
-        for (Stat stat : Stat.values()) {
-            quickMap.put(stat,0);
+    private HashMap<ItemStat, Integer> buildEmptyMap() {
+        HashMap<ItemStat, Integer> quickMap = new HashMap<>();
+        for (ItemStat stat : ItemStat.values()) {
+            quickMap.put(stat, 0);
         }
         return quickMap;
     }
 
     public static CombatPlayer getPlayer(Player player) {
-        if(!players.containsKey(player.getUniqueId())) throw new RuntimeException(ChatColor.RED + "Error! Player " + player.getName() + " not in combat DB!");
+        if (!players.containsKey(player.getUniqueId()))
+            throw new RuntimeException(ChatColor.RED + "Error! Player " + player.getName() + " not in combat DB!");
         return players.get(player.getUniqueId());
     }
 
@@ -212,10 +232,6 @@ public class CombatPlayer {
 
     public float getParryRate() {
         return parryRate;
-    }
-
-    public List<ItemStack> getGear() {
-        return gear;
     }
 
     public float getDamage() {
@@ -244,7 +260,7 @@ public class CombatPlayer {
 
     public float getPercentDamageReduction(float armorReduction) {
         float reducedDefence = defense - armorReduction;
-        if(reducedDefence < 0) reducedDefence = 0;
+        if (reducedDefence < 0) reducedDefence = 0;
         return reducedDefence / (reducedDefence + 7900);
     }
 

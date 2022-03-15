@@ -11,7 +11,7 @@ public class TimedItem {
     public ItemStack offhand;
     public ItemStack[] armor;
 
-    public TimedItem(LocalDateTime time, ItemStack stack,ItemStack offhand,ItemStack[] armor) {
+    public TimedItem(LocalDateTime time, ItemStack stack, ItemStack offhand, ItemStack[] armor) {
         this.time = time;
         this.mainHand = stack;
         this.offhand = offhand;

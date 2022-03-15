@@ -29,7 +29,7 @@ public class EquipItemEvent implements Listener {
      * Handle weapon equip first
      */
 
-    private static final int[] ARMOR_SLOTS = new int[] {36,37,38,39};
+    private static final int[] ARMOR_SLOTS = new int[]{36, 37, 38, 39};
 
     @EventHandler
     public void onInventoryClickEvent(InventoryClickEvent event) {
@@ -43,29 +43,29 @@ public class EquipItemEvent implements Listener {
 
         InventoryAction action = event.getAction();
 
-        if(action == InventoryAction.MOVE_TO_OTHER_INVENTORY
+        if (action == InventoryAction.MOVE_TO_OTHER_INVENTORY
                 || action == InventoryAction.PICKUP_ALL
                 || action == InventoryAction.PICKUP_HALF
                 || action == InventoryAction.PICKUP_ONE
                 || action == InventoryAction.PICKUP_SOME) {
-            doAlert((Player) event.getWhoClicked(),event);
+            doAlert((Player) event.getWhoClicked(), event);
         }
-        if(action == InventoryAction.HOTBAR_SWAP) {
-            if(mainHand != oldItems.mainHand || offhand != oldItems.offhand || isSameArmor(oldItems.armor,playerInventory.getArmorContents())) {
+        if (action == InventoryAction.HOTBAR_SWAP) {
+            if (mainHand != oldItems.mainHand || offhand != oldItems.offhand || isSameArmor(oldItems.armor, playerInventory.getArmorContents())) {
                 event.getWhoClicked().sendMessage(ChatColor.RED + "Your gear slots are locked!");
                 event.setResult(Event.Result.DENY);
                 event.setCancelled(true);
             }
         }
-        if(action == InventoryAction.SWAP_WITH_CURSOR) {
-            doAlert((Player) event.getWhoClicked(),event);
+        if (action == InventoryAction.SWAP_WITH_CURSOR) {
+            doAlert((Player) event.getWhoClicked(), event);
         }
     }
 
-    public boolean isSameArmor(ItemStack[] oldArmor,ItemStack[] currentArmor) {
+    public boolean isSameArmor(ItemStack[] oldArmor, ItemStack[] currentArmor) {
         AtomicBoolean isSame = new AtomicBoolean(true);
         Arrays.stream(oldArmor).forEach(i -> {
-            if(Arrays.stream(currentArmor).noneMatch(x -> x == i)) isSame.set(false);
+            if (Arrays.stream(currentArmor).noneMatch(x -> x == i)) isSame.set(false);
         });
         return isSame.get();
     }
@@ -77,7 +77,7 @@ public class EquipItemEvent implements Listener {
 
     public static void doAlert(Player player, InventoryClickEvent event) {
         //if(!LocalDateTime.now().isAfter(item.time)) return;
-        if(event.getSlot() == OFF_HAND || event.getSlot() == MAIN_HAND || Arrays.stream(ARMOR_SLOTS).anyMatch(i -> i == event.getSlot())) {
+        if (event.getSlot() == OFF_HAND || event.getSlot() == MAIN_HAND || Arrays.stream(ARMOR_SLOTS).anyMatch(i -> i == event.getSlot())) {
             player.sendMessage(ChatColor.RED + "Your gear slots are locked!");
             event.setResult(Event.Result.DENY);
             event.setCancelled(true);

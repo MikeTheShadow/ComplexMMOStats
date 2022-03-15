@@ -11,7 +11,7 @@ public class HealthRegenEvent implements Listener {
 
     @EventHandler
     public void onHealthRegenEvent(EntityRegainHealthEvent event) {
-        if(!(event.getEntity() instanceof Player)) return;
+        if (!(event.getEntity() instanceof Player)) return;
 
         //TODO add custom health regen. Use PlayerAttackPlayerEvent.combatInfo to garner if user is in battle or not
 
