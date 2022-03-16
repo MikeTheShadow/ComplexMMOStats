@@ -1,9 +1,9 @@
 package com.miketheshadow.complexmmostats.command;
 
-import com.miketheshadow.complexmmostats.annotations.CMMOCommand;
 import com.miketheshadow.complexmmostats.item.armor.ArmorConfig;
 import com.miketheshadow.complexmmostats.item.weapon.ShieldConfig;
 import com.miketheshadow.complexmmostats.item.weapon.WeaponConfig;
+import com.miketheshadow.complexmmostats.utils.LoaderTool;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-@CMMOCommand(command = "cmsummon")
+@LoaderTool.CommandLoader(command = "cmsummon")
 public class CMSummonCommand  implements CommandExecutor {
 
     private static final String[] parts = {"HELMET", "CHESTPLATE", "LEGGINGS", "BOOTS"};

@@ -1,4 +1,4 @@
-package com.miketheshadow.complexmmostats.listener;
+package com.miketheshadow.complexmmostats.listeners;
 
 import com.miketheshadow.complexmmostats.api.PlayerAttacksEntityAPI;
 import org.bukkit.entity.LivingEntity;

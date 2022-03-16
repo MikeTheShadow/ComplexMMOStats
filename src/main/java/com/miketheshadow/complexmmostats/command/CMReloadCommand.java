@@ -1,13 +1,13 @@
 package com.miketheshadow.complexmmostats.command;
 
 import com.miketheshadow.complexmmostats.ComplexMMOStats;
-import com.miketheshadow.complexmmostats.annotations.CMMOCommand;
+import com.miketheshadow.complexmmostats.utils.LoaderTool;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-@CMMOCommand(command = "cmreload")
+@LoaderTool.CommandLoader(command = "cmreload")
 public class CMReloadCommand implements CommandExecutor {
 
     @Override

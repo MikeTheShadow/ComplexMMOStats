@@ -1,6 +1,6 @@
 package com.miketheshadow.complexmmostats.command;
 
-import com.miketheshadow.complexmmostats.annotations.CMMOCommand;
+import com.miketheshadow.complexmmostats.utils.LoaderTool;
 import com.miketheshadow.complexmmostats.utils.UnicodeConversion;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-@CMMOCommand(command = "cmtest")
+@LoaderTool.CommandLoader(command = "cmtest")
 public class CMTestCommand implements CommandExecutor {
 
     @Override
