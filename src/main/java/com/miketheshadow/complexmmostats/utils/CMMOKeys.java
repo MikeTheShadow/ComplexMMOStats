@@ -3,7 +3,6 @@ package com.miketheshadow.complexmmostats.utils;
 import com.miketheshadow.autoregister.annotations.InjectPlugin;
 import com.miketheshadow.complexmmostats.ComplexMMOStats;
 import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.ConfigurationSection;
 
 public class CMMOKeys {
 

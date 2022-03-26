@@ -63,9 +63,9 @@ public class CombatPlayer {
         //this.bonusHealth = 0;
 
         // Set flat defaults here.
-        PLAYER_STATS.put(CRITICAL_RATE,20);
-        PLAYER_STATS.put(CRITICAL_DAMAGE,50);
-        PLAYER_STATS.put(BLOCK_RATE,10);
+        PLAYER_STATS.put(CRITICAL_RATE, 20);
+        PLAYER_STATS.put(CRITICAL_DAMAGE, 50);
+        PLAYER_STATS.put(BLOCK_RATE, 10);
 
         calculateOffensiveStats(player, forceMainHand);
 

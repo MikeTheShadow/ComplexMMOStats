@@ -2,7 +2,6 @@ package com.miketheshadow.complexmmostats.api;
 
 import com.miketheshadow.autoregister.annotations.InjectPlugin;
 import com.miketheshadow.complexmmostats.ComplexMMOStats;
-import com.miketheshadow.complexmmostats.utils.CMMOKeys;
 import com.miketheshadow.complexmmostats.utils.CombatPlayer;
 import com.miketheshadow.complexmmostats.utils.ItemChecker;
 import com.miketheshadow.mmotextapi.text.ItemStat;

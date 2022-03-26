@@ -1,18 +1,6 @@
 package com.miketheshadow.complexmmostats.item.weapon;
 
-import com.miketheshadow.complexmmostats.utils.CMMOKeys;
 import com.miketheshadow.complexmmostats.utils.ItemBuilder;
-import com.miketheshadow.mmotextapi.text.ItemStat;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class ShieldBuilder extends ItemBuilder {
 

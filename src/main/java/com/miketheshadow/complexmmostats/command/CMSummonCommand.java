@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 @RegisterCommand(commandName = "cmsummon")
-public class CMSummonCommand  implements CommandExecutor {
+public class CMSummonCommand implements CommandExecutor {
 
     private static final String[] parts = {"HELMET", "CHESTPLATE", "LEGGINGS", "BOOTS"};
 

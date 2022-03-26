@@ -16,7 +16,7 @@ public final class ComplexMMOStats extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        AutoRegister autoRegister = new AutoRegister(this,"com.miketheshadow.complexmmostats");
+        AutoRegister autoRegister = new AutoRegister(this, "com.miketheshadow.complexmmostats");
         autoRegister.defaultSetup();
 
         if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
