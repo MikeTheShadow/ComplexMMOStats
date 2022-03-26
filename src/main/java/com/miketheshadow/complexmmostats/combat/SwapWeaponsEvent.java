@@ -1,5 +1,6 @@
 package com.miketheshadow.complexmmostats.combat;
 
+import com.miketheshadow.autoregister.annotations.InjectPlugin;
 import com.miketheshadow.complexmmostats.ComplexMMOStats;
 import com.miketheshadow.complexmmostats.utils.CombatPlayer;
 import com.miketheshadow.complexmmostats.utils.ItemChecker;
@@ -15,6 +16,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class SwapWeaponsEvent implements Listener {
+
+    @InjectPlugin
+    ComplexMMOStats plugin;
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerSwapWeaponEvent(PlayerItemHeldEvent event) {
@@ -44,6 +48,6 @@ public class SwapWeaponsEvent implements Listener {
                 Player attemptRefresh = Bukkit.getPlayer(player.getUniqueId());
                 CombatPlayer.getPlayer(player).update(attemptRefresh, null);
             }
-        }).runTaskLater(ComplexMMOStats.INSTANCE, 1);
+        }).runTaskLater(plugin, 1);
     }
 }

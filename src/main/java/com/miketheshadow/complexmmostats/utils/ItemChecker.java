@@ -1,5 +1,6 @@
 package com.miketheshadow.complexmmostats.utils;
 
+import com.miketheshadow.autoregister.annotations.InjectPlugin;
 import com.miketheshadow.complexmmostats.ComplexMMOStats;
 import com.miketheshadow.mmotextapi.text.ItemStat;
 import org.bukkit.Material;
@@ -8,6 +9,9 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 public class ItemChecker {
+
+    @InjectPlugin
+    private static ComplexMMOStats plugin;
 
     public static boolean isAnyWeapon(ItemStack stack) {
         if (!isValidComplexMMOItem(stack)) return false;
@@ -37,7 +41,7 @@ public class ItemChecker {
 
     public static int getHandling(ItemStack stack) {
         PersistentDataContainer container = stack.getItemMeta().getPersistentDataContainer();
-        return container.get(ItemStat.HANDLING.getNameSpacedKey(ComplexMMOStats.INSTANCE), PersistentDataType.INTEGER);
+        return container.get(ItemStat.HANDLING.getNameSpacedKey(plugin), PersistentDataType.INTEGER);
     }
 
     public static boolean isValidComplexMMOItem(ItemStack stack) {

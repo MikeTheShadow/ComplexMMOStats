@@ -20,5 +20,4 @@ public class ComplexLoginEvent implements Listener {
             CombatPlayer.players.put(event.getPlayer().getUniqueId(), new CombatPlayer(event.getPlayer(), null));
         }
     }
-
 }

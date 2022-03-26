@@ -1,5 +1,6 @@
 package com.miketheshadow.complexmmostats.item.weapon;
 
+import com.miketheshadow.autoregister.annotations.InjectPlugin;
 import com.miketheshadow.complexmmostats.ComplexMMOStats;
 import com.miketheshadow.complexmmostats.utils.ItemBuilder;
 import com.miketheshadow.mmotextapi.text.ItemStat;
@@ -16,6 +17,10 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class ShieldConfig {
+
+
+    @InjectPlugin
+    private static ComplexMMOStats plugin;
 
     public static FileConfiguration SHIELD_CONFIG;
 
@@ -54,7 +59,7 @@ public class ShieldConfig {
     }
 
     private static File getFile() {
-        return new File(ComplexMMOStats.INSTANCE.getDataFolder().getAbsolutePath() + "\\" + CONFIG_NAME);
+        return new File(plugin.getDataFolder().getAbsolutePath() + "\\" + CONFIG_NAME);
     }
 
     public static ItemStack getItemFromConfig(String itemName, Player player) {

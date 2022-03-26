@@ -1,5 +1,6 @@
 package com.miketheshadow.complexmmostats.api;
 
+import com.miketheshadow.autoregister.annotations.InjectPlugin;
 import com.miketheshadow.complexmmostats.ComplexMMOStats;
 import com.miketheshadow.complexmmostats.utils.CMMOKeys;
 import com.miketheshadow.complexmmostats.utils.CombatPlayer;
@@ -22,6 +23,8 @@ public class PlayerAttacksPlayerAPI extends PlayerAttackBaseAPI {
      * and when the player was last attacked (combat log purposes)
      */
 
+    @InjectPlugin
+    private static ComplexMMOStats plugin;
 
     public static void dealDamage(Player damager, Player defender, double percentOfDamage) {
 
@@ -67,7 +70,7 @@ public class PlayerAttacksPlayerAPI extends PlayerAttackBaseAPI {
             if (didBlock ^ !blockBypass) {
 
                 if ((new Random()).nextInt(100) > 50) {
-                    armorBypassAmount += defender.getInventory().getItemInOffHand().getItemMeta().getPersistentDataContainer().get(ItemStat.DEFENSE.getNameSpacedKey(ComplexMMOStats.INSTANCE), PersistentDataType.INTEGER);
+                    armorBypassAmount += defender.getInventory().getItemInOffHand().getItemMeta().getPersistentDataContainer().get(ItemStat.DEFENSE.getNameSpacedKey(plugin), PersistentDataType.INTEGER);
                     createTemporaryHologram(damager, defender, ChatColor.RED + "Shield Penetrated!");
                     createTemporaryHologram(defender, damager, ChatColor.GREEN + "Shield Penetrated!");
                 }

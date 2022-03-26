@@ -1,23 +1,25 @@
 package com.miketheshadow.complexmmostats.command;
 
+import com.miketheshadow.autoregister.annotations.RegisterTabComplete;
 import com.miketheshadow.complexmmostats.item.armor.ArmorConfig;
 import com.miketheshadow.complexmmostats.item.weapon.ShieldConfig;
 import com.miketheshadow.complexmmostats.item.weapon.WeaponConfig;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+@RegisterTabComplete(commandName = "cmsummon")
 public class CMSummonTabComplete implements TabCompleter {
 
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
 
         if (args.length == 3) {
             return Arrays.asList("true", "false");

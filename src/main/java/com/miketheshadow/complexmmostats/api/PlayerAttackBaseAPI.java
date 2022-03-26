@@ -2,6 +2,7 @@ package com.miketheshadow.complexmmostats.api;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.miketheshadow.autoregister.annotations.InjectPlugin;
 import com.miketheshadow.complexmmostats.ComplexMMOStats;
 import com.miketheshadow.complexmmostats.utils.AttackTimer;
 import com.miketheshadow.complexmmostats.utils.CombatPlayer;
@@ -21,6 +22,9 @@ import static java.time.temporal.ChronoUnit.MILLIS;
 
 public class PlayerAttackBaseAPI {
 
+    @InjectPlugin
+    private static ComplexMMOStats plugin;
+
     public static HashMap<UUID, AttackTimer> combatInfo = new HashMap<>();
 
     public static boolean cannotAttack(Player attacker, Entity defender) {
@@ -34,7 +38,7 @@ public class PlayerAttackBaseAPI {
         Location location = player.getLocation();
         location.add(0, 2, 0);
 
-        Hologram hologram = HologramsAPI.createHologram(ComplexMMOStats.INSTANCE, location);
+        Hologram hologram = HologramsAPI.createHologram(plugin, location);
         hologram.appendTextLine(text);
         hologram.getVisibilityManager().setVisibleByDefault(false);
         hologram.getVisibilityManager().hideTo(player);
@@ -49,7 +53,7 @@ public class PlayerAttackBaseAPI {
                 }
                 hologram.delete();
             }
-        }).runTaskAsynchronously(ComplexMMOStats.INSTANCE);
+        }).runTaskAsynchronously(plugin);
     }
 
     public static void updateAttackTimer(Player player, CombatPlayer combatPlayer) {

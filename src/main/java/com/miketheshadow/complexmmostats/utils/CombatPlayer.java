@@ -1,5 +1,6 @@
 package com.miketheshadow.complexmmostats.utils;
 
+import com.miketheshadow.autoregister.annotations.InjectPlugin;
 import com.miketheshadow.complexmmostats.ComplexMMOStats;
 import com.miketheshadow.mmotextapi.text.ItemStat;
 import org.bukkit.ChatColor;
@@ -14,10 +15,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static com.miketheshadow.complexmmostats.ComplexMMOStats.INSTANCE;
 import static com.miketheshadow.mmotextapi.text.ItemStat.*;
 
 public class CombatPlayer {
+
+    @InjectPlugin
+    private static ComplexMMOStats plugin;
 
     public static HashMap<UUID, CombatPlayer> players = new HashMap<>();
 
@@ -134,7 +137,7 @@ public class CombatPlayer {
     private void addMainHandStats(ItemStack stack) {
         this.currentMainHand = stack;
         PersistentDataContainer container = stack.getItemMeta().getPersistentDataContainer();
-        this.damage = container.get(ItemStat.ATTACK_DAMAGE.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
+        this.damage = container.get(ItemStat.ATTACK_DAMAGE.getNameSpacedKey(plugin), PersistentDataType.INTEGER);
         //TODO ENABLE -> this.attackSpeed = weaponContainer.getFloat("attack_speed");
         addStats(container);
     }
@@ -145,26 +148,26 @@ public class CombatPlayer {
 
     private void addStats(PersistentDataContainer container) {
 
-        if (container.has(STRENGTH.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER)) {
-            int amount = container.get(STRENGTH.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
+        if (container.has(STRENGTH.getNameSpacedKey(plugin), PersistentDataType.INTEGER)) {
+            int amount = container.get(STRENGTH.getNameSpacedKey(plugin), PersistentDataType.INTEGER);
             this.damage += (amount * 0.4);
             this.parryRate += (amount * 0.03);
             PLAYER_STATS.put(STRENGTH, PLAYER_STATS.get(STRENGTH) + amount);
         }
-        if (container.has(STAMINA.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER)) {
-            int amount = container.get(STAMINA.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
+        if (container.has(STAMINA.getNameSpacedKey(plugin), PersistentDataType.INTEGER)) {
+            int amount = container.get(STAMINA.getNameSpacedKey(plugin), PersistentDataType.INTEGER);
             this.bonusHealth += amount * 10;
             this.blockRate += (amount * 0.03);
             PLAYER_STATS.put(STAMINA, PLAYER_STATS.get(STAMINA) + amount);
         }
-        if (container.has(AGILITY.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER)) {
-            int amount = container.get(AGILITY.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
+        if (container.has(AGILITY.getNameSpacedKey(plugin), PersistentDataType.INTEGER)) {
+            int amount = container.get(AGILITY.getNameSpacedKey(plugin), PersistentDataType.INTEGER);
             this.criticalRate += amount * 0.05;
             this.criticalDamage += amount * 0.05;
             PLAYER_STATS.put(AGILITY, PLAYER_STATS.get(AGILITY) + amount);
         }
-        if (container.has(INTELLIGENCE.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER)) {
-            int amount = container.get(INTELLIGENCE.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
+        if (container.has(INTELLIGENCE.getNameSpacedKey(plugin), PersistentDataType.INTEGER)) {
+            int amount = container.get(INTELLIGENCE.getNameSpacedKey(plugin), PersistentDataType.INTEGER);
             this.intel += amount;
             PLAYER_STATS.put(INTELLIGENCE, PLAYER_STATS.get(INTELLIGENCE) + amount);
         }
@@ -202,8 +205,8 @@ public class CombatPlayer {
          */
 
         //for shields or armor
-        if (container.has(DEFENSE.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER)) {
-            this.defense += container.get(DEFENSE.getNameSpacedKey(INSTANCE), PersistentDataType.INTEGER);
+        if (container.has(DEFENSE.getNameSpacedKey(plugin), PersistentDataType.INTEGER)) {
+            this.defense += container.get(DEFENSE.getNameSpacedKey(plugin), PersistentDataType.INTEGER);
         }
 
     }

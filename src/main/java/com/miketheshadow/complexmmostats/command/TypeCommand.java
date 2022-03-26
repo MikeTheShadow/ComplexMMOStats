@@ -1,12 +1,12 @@
 package com.miketheshadow.complexmmostats.command;
 
-import com.miketheshadow.complexmmostats.utils.LoaderTool;
+import com.miketheshadow.autoregister.annotations.RegisterCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@LoaderTool.CommandLoader(command = "type")
+@RegisterCommand(commandName = "type")
 public class TypeCommand  implements CommandExecutor {
 
     @Override
