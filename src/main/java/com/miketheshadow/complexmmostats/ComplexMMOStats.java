@@ -13,8 +13,12 @@ import java.util.logging.Level;
 
 public final class ComplexMMOStats extends JavaPlugin {
 
+    private static ComplexMMOStats instance;
+
     @Override
     public void onEnable() {
+
+        instance = this;
 
         AutoRegister autoRegister = new AutoRegister(this, "com.miketheshadow.complexmmostats");
         autoRegister.defaultSetup();
@@ -51,5 +55,9 @@ public final class ComplexMMOStats extends JavaPlugin {
         WeaponConfig.load();
         ShieldConfig.load();
         ArmorConfig.load();
+    }
+
+    public static ComplexMMOStats getInstance() {
+        return instance;
     }
 }
